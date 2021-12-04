@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1087541078092",
+    "project_id": "diplomapplication-a861f",
+    "storage_bucket": "diplomapplication-a861f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1087541078092:android:ec3bcd7283ff5edbfa6ce9",
+        "android_client_info": {
+          "package_name": "com.SetMa02.GameStore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1087541078092-gvo1hrju8acmsjktm5t5pb373k35ei6t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWMBuqdafyA5o_XJpRy5ARrLP894MCC_0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1087541078092-gvo1hrju8acmsjktm5t5pb373k35ei6t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

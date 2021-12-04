@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id,@string/default_web_client_id">
+  <string name="gcm_defaultSenderId" translatable="false">1087541078092</string>
+  <string name="google_storage_bucket" translatable="false">diplomapplication-a861f.appspot.com</string>
+  <string name="project_id" translatable="false">diplomapplication-a861f</string>
+  <string name="google_api_key" translatable="false">AIzaSyDWMBuqdafyA5o_XJpRy5ARrLP894MCC_0</string>
+  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDWMBuqdafyA5o_XJpRy5ARrLP894MCC_0</string>
+  <string name="google_app_id" translatable="false">1:1087541078092:android:ec3bcd7283ff5edbfa6ce9</string>
+  <string name="default_web_client_id" translatable="false">1087541078092-gvo1hrju8acmsjktm5t5pb373k35ei6t.apps.googleusercontent.com</string>
+</resources>
