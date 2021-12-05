@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Firebase;
 using Firebase.Auth;
 using Firebase.Database;
+using Firebase.Storage;
 using UnityEngine;
 
 public class FireBase : MonoBehaviour
@@ -11,6 +13,8 @@ public class FireBase : MonoBehaviour
     public FirebaseAuth Auth;    
     public FirebaseUser User;
     public DatabaseReference DBreference;
+    public FirebaseStorage Storage;
+    public StorageReference StorageReference;
 
     
     void Awake()
@@ -28,7 +32,14 @@ public class FireBase : MonoBehaviour
             }
         });
     }
-    
+
+    private void Start()
+    {
+        Storage = FirebaseStorage.DefaultInstance;
+        StorageReference = Storage.GetReferenceFromUrl("gs://diplomapplication-a861f.appspot.com/"); 
+    }
+
+
     private void InitializeFirebase()
     {
         Debug.Log("Setting up Firebase Auth");

@@ -5,6 +5,7 @@ using Firebase;
 using Firebase.Auth;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class Auth : MonoBehaviour
@@ -17,8 +18,12 @@ public class Auth : MonoBehaviour
     [SerializeField] private ErrorMessage _errorMessage;
     [SerializeField] private TMP_Text _loginText;
 
+    public event UnityAction UserSigned;
+    
     private CanvasGroup _frame;
     private Button _regButton;
+    
+    
 
     private void Start()
     {
@@ -101,9 +106,11 @@ public class Auth : MonoBehaviour
         else
         {
             _fireBase.User = LoginTask.Result;
+            _frame.alpha = 0;
+            _frame.interactable = false;
+            _frame.blocksRaycasts = false;
             Debug.LogFormat("User signed in successfully: {0} ", _fireBase.User.Email);
-
-            yield return new WaitForSeconds(2);
+            UserSigned?.Invoke();
         }
     }
 
