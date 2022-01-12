@@ -13,7 +13,7 @@ public class ContentUpdate : MonoBehaviour
     [SerializeField] private FireBase _fireBase;
     [SerializeField] private Auth _auth;
     [SerializeField] private GameObject _container;
-    [SerializeField] private GameObject _prefab;
+    [SerializeField] private Element _prefab;
     
     private List<Element> _elements = new List<Element>();
 
@@ -56,30 +56,32 @@ public class ContentUpdate : MonoBehaviour
         else
         {
             DataSnapshot snapshot = DBTask.Result;
-            
-            
-            for (int i = 0; i < Convert.ToInt32(snapshot.Child("Count").Value.ToString()); i++)
+            int countOfGames = Convert.ToInt32(snapshot.Child("Count").Value.ToString());
+            for (int i = 0; i < countOfGames; i++)
             {
-                Instantiate(_prefab, _container.transform, false);
+                _elements.Add(_prefab);
             }
             
-            for (int i = 1; i < Int32.Parse(snapshot.Child("Count").Value.ToString()); i++)
+            for (int i = 0; i < _elements.Count; i++)
             {
-                _elements[i - 1].id = i;
-                _elements[i - 1].Name.text = snapshot.Child(i.ToString()).Child("Name").Value.ToString();
+                Instantiate(_elements[i], _container.transform, false);
+                string DBElement = (i + 1).ToString();
+                _elements[i].Name.text = snapshot.Child(DBElement).Child("Name").Value.ToString();
+                _elements[i].id = i+1;
                 
-                StorageReference image = _fireBase.StorageReference.Child(snapshot.Child(i.ToString()).Child("Image").Value.ToString());
+                StorageReference image = _fireBase.StorageReference.Child(snapshot.Child(DBElement).Child("Image").Value.ToString());
                 image.GetDownloadUrlAsync().ContinueWithOnMainThread(task =>
                 {
                     if(!task.IsFaulted && !task.IsCanceled)
                     {
-                        StartCoroutine(LoadImage(Convert.ToString(task.Result), i-1));
+                        StartCoroutine(LoadImage(Convert.ToString(task.Result), i));
                     }
                     else
                     {
                         Debug.Log(task.Exception);
                     }
                 });
+                
             }
         }
     }

@@ -418,7 +418,7 @@ MonoBehaviour:
   _fireBase: {fileID: 1461923070}
   _auth: {fileID: 207666429}
   _container: {fileID: 1493108066}
-  _prefab: {fileID: 4016195255102331909, guid: 4b787338f3de726439fdb93b5ce71f96, type: 3}
+  _prefab: {fileID: 7329095011541281057, guid: 4b787338f3de726439fdb93b5ce71f96, type: 3}
 --- !u!114 &134111162
 MonoBehaviour:
   m_ObjectHideFlags: 0
