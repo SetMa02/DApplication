@@ -2,6 +2,7 @@
   "project_info": {
     "project_number": "1087541078092",
     "project_id": "diplomapplication-a861f",
+    "firebase_url": "https://diplomapplication-a861f-default-rtdb.firebaseio.com/",
     "storage_bucket": "diplomapplication-a861f.appspot.com"
   },
   "client": [

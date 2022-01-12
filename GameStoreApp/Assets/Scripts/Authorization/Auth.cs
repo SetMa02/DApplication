@@ -73,6 +73,7 @@ public class Auth : MonoBehaviour
     private IEnumerator Login(string _email, string _password)
     {
         var LoginTask = _fireBase.Auth.SignInWithEmailAndPasswordAsync(_email, _password);
+       
         yield return new WaitUntil(predicate: () => LoginTask.IsCompleted);
 
         if (LoginTask.Exception != null)

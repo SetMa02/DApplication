@@ -15,7 +15,6 @@ public class ContentUpdate : MonoBehaviour
     [SerializeField] private GameObject _container;
     [SerializeField] private GameObject _prefab;
     
-    public DatabaseReference DBreference;
     private List<Element> _elements = new List<Element>();
 
     private CanvasGroup _mainFrame;
@@ -45,8 +44,8 @@ public class ContentUpdate : MonoBehaviour
     
     private IEnumerator LoadUserData()
     {
-        //Get the currently logged in user data
-        var DBTask = DBreference.Child("Games").GetValueAsync();
+
+        var DBTask = _fireBase.DBreference.Child("Games").GetValueAsync();
 
         yield return new WaitUntil(predicate: () => DBTask.IsCompleted);
 
@@ -57,12 +56,11 @@ public class ContentUpdate : MonoBehaviour
         else
         {
             DataSnapshot snapshot = DBTask.Result;
-
-            _elements.Capacity = Convert.ToInt32(snapshot.Child("Count").Value.ToString());
-
-            for (int i = 0; i < _elements.Capacity; i++)
+            
+            
+            for (int i = 0; i < Convert.ToInt32(snapshot.Child("Count").Value.ToString()); i++)
             {
-                Instantiate(_elements[i], _container.transform, false);
+                Instantiate(_prefab, _container.transform, false);
             }
             
             for (int i = 1; i < Int32.Parse(snapshot.Child("Count").Value.ToString()); i++)

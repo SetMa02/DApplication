@@ -32,19 +32,13 @@ public class FireBase : MonoBehaviour
             }
         });
     }
-
-    private void Start()
-    {
-        Storage = FirebaseStorage.DefaultInstance;
-        StorageReference = Storage.GetReferenceFromUrl("gs://diplomapplication-a861f.appspot.com/"); 
-    }
-
-
+    
     private void InitializeFirebase()
     {
         Debug.Log("Setting up Firebase Auth");
-       
+        Storage = FirebaseStorage.DefaultInstance;
         Auth = FirebaseAuth.DefaultInstance;
         DBreference = FirebaseDatabase.DefaultInstance.RootReference;
+        StorageReference = Storage.GetReferenceFromUrl("gs://diplomapplication-a861f.appspot.com/");
     }
 }
