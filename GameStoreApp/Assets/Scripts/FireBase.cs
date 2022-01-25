@@ -5,6 +5,7 @@ using Firebase;
 using Firebase.Auth;
 using Firebase.Database;
 using Firebase.Storage;
+using Firebase.Extensions;
 using UnityEngine;
 
 public class FireBase : MonoBehaviour
@@ -16,7 +17,7 @@ public class FireBase : MonoBehaviour
     public FirebaseStorage Storage;
     public StorageReference StorageReference;
 
-    
+
     void Awake()
     {
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>

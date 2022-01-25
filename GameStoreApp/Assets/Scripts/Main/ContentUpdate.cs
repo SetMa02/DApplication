@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Security.Policy;
 using Firebase.Database;
 using Firebase.Extensions;
 using Firebase.Storage;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Networking;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class ContentUpdate : MonoBehaviour
@@ -16,9 +20,11 @@ public class ContentUpdate : MonoBehaviour
     [SerializeField] private Element _prefab;
     
     private List<Element> _elements = new List<Element>();
-
+    private FirebaseStorage _storage;
+    private StorageReference _storageReference;
+    private  StorageReference _fileReference; 
     private CanvasGroup _mainFrame;
-
+  
     private void Start()
     {
         _mainFrame = gameObject.GetComponent<CanvasGroup>();
@@ -64,39 +70,48 @@ public class ContentUpdate : MonoBehaviour
             
             for (int i = 0; i < _elements.Count; i++)
             {
-                Instantiate(_elements[i], _container.transform, false);
                 string DBElement = (i + 1).ToString();
+                
                 _elements[i].Name.text = snapshot.Child(DBElement).Child("Name").Value.ToString();
                 _elements[i].id = i+1;
                 
-                StorageReference image = _fireBase.StorageReference.Child(snapshot.Child(DBElement).Child("Image").Value.ToString());
-                image.GetDownloadUrlAsync().ContinueWithOnMainThread(task =>
-                {
-                    if(!task.IsFaulted && !task.IsCanceled)
-                    {
-                        StartCoroutine(LoadImage(Convert.ToString(task.Result), i));
-                    }
-                    else
-                    {
-                        Debug.Log(task.Exception);
-                    }
-                });
+                StorageReference gsReference =
+                    _fireBase.Storage.GetReferenceFromUrl("gs://diplomapplication-a861f.appspot.com/" + snapshot.Child(DBElement).Child("Image").Value);
                 
+                StartCoroutine(SendLoadRequest(gsReference, i));
             }
         }
     }
-    
-    IEnumerator LoadImage(string MediaUrl, int el)
+
+    IEnumerator SendLoadRequest( StorageReference reference, int i)
     {
-        UnityWebRequest request = UnityWebRequestTexture.GetTexture(MediaUrl); //Create a request
-        yield return request.SendWebRequest(); //Wait for the request to complete
-        if (request.isNetworkError || request.isHttpError)
+        string url = "null";
+        bool isReady = false;
+        reference.GetDownloadUrlAsync().ContinueWithOnMainThread(task =>
         {
-            Debug.Log(request.error);
-        }
-        else
-        {
-           _elements[el].Icon.texture = ((DownloadHandlerTexture) request.downloadHandler).texture;
+            if (task.IsCompleted)
+            {
+                url = task.Result.ToString();
+                isReady = true;
+                Debug.Log("Download URL: " + url);
+            }
+        });
+        yield return new WaitUntil(() => isReady == true);
+        StartCoroutine(LoadImage(url, i));
+    }
+    
+    
+    public IEnumerator LoadImage(string URL, int i)
+    {
+        Debug.Log("Starting load image...");
+        UnityWebRequest request = UnityWebRequestTexture.GetTexture(URL);
+        yield return request.SendWebRequest();
+        if (request.isDone)
+        { 
+            _elements[i].Icon.texture = ((DownloadHandlerTexture) request.downloadHandler).texture;
+            Debug.Log("Done");
+            Instantiate(_elements[i], _container.transform, false);
         }
     }
 }
+    
