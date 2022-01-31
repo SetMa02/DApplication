@@ -12,13 +12,14 @@ using UnityEngine.Networking;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(CanvasGroup))]
 public class ContentUpdate : MonoBehaviour
 {
     [SerializeField] private FireBase _fireBase;
     [SerializeField] private Auth _auth;
     [SerializeField] private GameObject _container;
     [SerializeField] private Element _prefab;
-    
+
     private List<Element> _elements = new List<Element>();
     private FirebaseStorage _storage;
     private StorageReference _storageReference;
@@ -50,7 +51,7 @@ public class ContentUpdate : MonoBehaviour
     
     private IEnumerator LoadUserData()
     {
-
+        string name = "error";
         var DBTask = _fireBase.DBreference.Child("Games").GetValueAsync();
 
         yield return new WaitUntil(predicate: () => DBTask.IsCompleted);
@@ -62,6 +63,8 @@ public class ContentUpdate : MonoBehaviour
         else
         {
             DataSnapshot snapshot = DBTask.Result;
+            Snapshot.DbSnapshot = snapshot;
+            
             int countOfGames = Convert.ToInt32(snapshot.Child("Count").Value.ToString());
             for (int i = 0; i < countOfGames; i++)
             {
@@ -71,19 +74,18 @@ public class ContentUpdate : MonoBehaviour
             for (int i = 0; i < _elements.Count; i++)
             {
                 string DBElement = (i + 1).ToString();
-                
-                _elements[i].Name.text = snapshot.Child(DBElement).Child("Name").Value.ToString();
-                _elements[i].id = i+1;
-                
+                _elements[i].MainPanel = _mainFrame;
+               name = snapshot.Child(DBElement).Child("Name").Value.ToString();
+               
                 StorageReference gsReference =
                     _fireBase.Storage.GetReferenceFromUrl("gs://diplomapplication-a861f.appspot.com/" + snapshot.Child(DBElement).Child("Image").Value);
                 
-                StartCoroutine(SendLoadRequest(gsReference, i));
+                StartCoroutine(SendLoadRequest(gsReference, i, name));
             }
         }
     }
 
-    IEnumerator SendLoadRequest( StorageReference reference, int i)
+    IEnumerator SendLoadRequest( StorageReference reference, int i, string name)
     {
         string url = "null";
         bool isReady = false;
@@ -97,21 +99,24 @@ public class ContentUpdate : MonoBehaviour
             }
         });
         yield return new WaitUntil(() => isReady == true);
-        StartCoroutine(LoadImage(url, i));
+        StartCoroutine(LoadImage(url, i, name));
     }
     
     
-    public IEnumerator LoadImage(string URL, int i)
+    public IEnumerator LoadImage(string URL, int i, string name)
     {
         Debug.Log("Starting load image...");
         UnityWebRequest request = UnityWebRequestTexture.GetTexture(URL);
         yield return request.SendWebRequest();
         if (request.isDone)
-        { 
+        {
+            _elements[i].Name.text = name;
             _elements[i].Icon.texture = ((DownloadHandlerTexture) request.downloadHandler).texture;
+            _elements[i].id = i+1;
             Debug.Log("Done");
             Instantiate(_elements[i], _container.transform, false);
         }
     }
+    
 }
     

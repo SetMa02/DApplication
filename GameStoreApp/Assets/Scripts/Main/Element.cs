@@ -5,30 +5,49 @@ using Firebase.Extensions;
 using Firebase.Storage;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class Element : MonoBehaviour
 {
-   public int id;
-   
-   public RawImage Icon;
-   public TMP_Text Name;
+    
+    public int id;
+    public RawImage Icon;
+    public TMP_Text Name;
+    public Button Click;
+    public CanvasGroup MainPanel;
 
-   public void loadData(string url)
+    private GameObject _window;
+    private GameWindow _gameWindow;
+    private CanvasGroup _canvasGroup;
+   
+   
+    private void Start()
    {
-      Debug.Log("Image Load");
-      StartCoroutine(LoadImage(url));
+      _window = GameObject.FindGameObjectWithTag("GameWindow");
+      _gameWindow = _window.GetComponent<GameWindow>();
+      _canvasGroup = _window.GetComponent<CanvasGroup>();
+      Click.onClick.AddListener(GameClick);
    }
-   public IEnumerator LoadImage(string URL)
+
+   private void GameClick()
    {
-      Debug.Log("Starting load image...");
-      UnityWebRequest request = UnityWebRequestTexture.GetTexture(URL);
-      yield return request.SendWebRequest();
-      if (request.isDone)
-      { 
-        Icon.texture = ((DownloadHandlerTexture) request.downloadHandler).texture;
-         Debug.Log("Done");
-      }
+       Debug.Log("Window opening...");
+       MainPanel.alpha = 0.7f;
+       MainPanel.interactable = false;
+       MainPanel.blocksRaycasts = false;
+       
+       _gameWindow.ReciveData(Icon, Name.text, 
+           Snapshot.DbSnapshot.Child(id.ToString()).Child("Description").Value.ToString(), 
+           Snapshot.DbSnapshot.Child(id.ToString()).Child("Platform").Value.ToString(),
+           Snapshot.DbSnapshot.Child(id.ToString()).Child("Genres").Value.ToString(),
+           Snapshot.DbSnapshot.Child(id.ToString()).Child("Price").Value.ToString());
+
+       _canvasGroup.alpha = 1;
+       _canvasGroup.interactable = true;
+       _canvasGroup.blocksRaycasts = true;
+
    }
+   
 }
