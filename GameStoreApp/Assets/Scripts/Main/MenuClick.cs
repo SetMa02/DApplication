@@ -5,46 +5,46 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class MenuClick : MonoBehaviour
+
 {
-    [SerializeField]private Animator _menuAnim;
+    [SerializeField] private GameObject _menuPanel;
     
-    private Animator _animator;
-    private GameObject _mainPanel;
-    private CanvasGroup _mainFrame;
     private bool _isOpen;
     private Button _button;
 
     private void Start()
     {
+        _isOpen = false;
         _button = gameObject.GetComponent<Button>();
-        _button.onClick.AddListener(btnClick);
+        _button.onClick.AddListener(BtnClick);
         _isOpen = false;
     }
 
-    private void btnClick()
+    private void BtnClick()
     {
-        switch (_isOpen)
+        if (_isOpen == false)
         {
-            case true:
-                OpenMenu();
-                break;
-            case false:
-                CloseMenu();
-                break;
+            OpenMenu();
+            return;
+        }
+        else if(_isOpen == true)
+        {
+            CloseMenu();
+            return;
         }
     }
 
     private void OpenMenu()
     {
-        _animator.Play("BtnClick");
-        _menuAnim.Play("OpenMenu");
+        transform.LeanRotate(new Vector3(0, 0, -90), 0.25f);
+        _menuPanel.transform.LeanMoveLocal(new Vector3(349, -816), 0.25f);
         _isOpen = true;
     }
 
     private void CloseMenu()
     {
-        _animator.Play("BtnReverse");
-        _menuAnim.Play("CloseMenu");
+        transform.LeanRotate(new Vector3(0, 0, 0), 0.25f);
+        _menuPanel.transform.LeanMoveLocal(new Vector3(750, -816), 0.25f);
         _isOpen = false;
     }
    
