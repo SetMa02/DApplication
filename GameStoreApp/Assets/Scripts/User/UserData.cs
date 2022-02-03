@@ -41,12 +41,20 @@ public class UserData : User
             if (Snapshot.UsersSnapshot.Child(_fireBase.User.UserId).Exists)
             {
                 int favCount = Convert.ToInt32(Snapshot.UsersSnapshot.Child(_fireBase.User.UserId).Child("Count").Value);
-                for (int i = 0; i <= favCount; i++)
+                if (favCount == 0)
                 {
-                    int gameId = Convert.ToInt32(Snapshot.UsersSnapshot.Child(_fireBase.User.UserId).Child("Count").Child($"{i}").Value);
-                    FavouriteGames.Games.Add(gameId);
+                    yield break;
                 }
-                Debug.Log("User data received!");
+                if (favCount != 0)
+                {
+                    for (int i = 1; i <= favCount; i++)
+                    {
+                        int gameId = Convert.ToInt32(Snapshot.UsersSnapshot.Child(_fireBase.User.UserId).Child($"{i}").Value);
+                        Debug.Log(gameId);
+                        FavouriteGames.Games.Add(gameId);
+                    }
+                    Debug.Log("User data received!");
+                }
             }
             else if (!Snapshot.UsersSnapshot.Child(_fireBase.User.UserId).Exists)
             {
@@ -67,6 +75,10 @@ public class UserData : User
         else
         {
             Debug.Log("User data created!");
+            var DBTask1 = _fireBase.DBreference.Child("Users").GetValueAsync();
+            yield return new WaitUntil(predicate: () => DBTask1.IsCompleted);
+            Snapshot.UsersSnapshot = DBTask1.Result;
+
         }
     }
 }

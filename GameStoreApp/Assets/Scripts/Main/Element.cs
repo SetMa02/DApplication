@@ -17,10 +17,12 @@ public class Element : MonoBehaviour
     public TMP_Text Name;
     public Button Click;
     public CanvasGroup MainPanel;
+    public bool IsFavourite = false;
 
     private GameObject _window;
     private GameWindow _gameWindow;
     private CanvasGroup _canvasGroup;
+    
    
    
     private void Start()
@@ -42,7 +44,8 @@ public class Element : MonoBehaviour
            Snapshot.DbSnapshot.Child(id.ToString()).Child("Description").Value.ToString(), 
            Snapshot.DbSnapshot.Child(id.ToString()).Child("Platform").Value.ToString(),
            Snapshot.DbSnapshot.Child(id.ToString()).Child("Genres").Value.ToString(),
-           Snapshot.DbSnapshot.Child(id.ToString()).Child("Price").Value.ToString());
+           Snapshot.DbSnapshot.Child(id.ToString()).Child("Price").Value.ToString(),
+           id);
 
        _canvasGroup.alpha = 1;
        _canvasGroup.interactable = true;

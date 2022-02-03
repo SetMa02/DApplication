@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Policy;
+using DefaultNamespace;
 using Firebase.Database;
 using Firebase.Extensions;
 using Firebase.Storage;
@@ -15,12 +16,13 @@ using UnityEngine.UI;
 [RequireComponent(typeof(CanvasGroup))]
 public class ContentUpdate : MonoBehaviour
 {
+    public static List<Element> Elements = new List<Element>();
+    
     [SerializeField] private FireBase _fireBase;
     [SerializeField] private Auth _auth;
     [SerializeField] private GameObject _container;
     [SerializeField] private Element _prefab;
-
-    private List<Element> _elements = new List<Element>();
+    
     private FirebaseStorage _storage;
     private StorageReference _storageReference;
     private  StorageReference _fileReference; 
@@ -68,14 +70,14 @@ public class ContentUpdate : MonoBehaviour
             int countOfGames = Convert.ToInt32(snapshot.Child("Count").Value.ToString());
             for (int i = 0; i < countOfGames; i++)
             {
-                _elements.Add(_prefab);
+                Elements.Add(_prefab);
             }
             
-            for (int i = 0; i < _elements.Count; i++)
+            for (int i = 0; i < Elements.Count; i++)
             {
                 string DBElement = (i + 1).ToString();
-                _elements[i].MainPanel = _mainFrame;
-               name = snapshot.Child(DBElement).Child("Name").Value.ToString();
+                Elements[i].MainPanel = _mainFrame;
+                name = snapshot.Child(DBElement).Child("Name").Value.ToString();
                
                 StorageReference gsReference =
                     _fireBase.Storage.GetReferenceFromUrl("gs://diplomapplication-a861f.appspot.com/" + snapshot.Child(DBElement).Child("Image").Value);
@@ -110,11 +112,20 @@ public class ContentUpdate : MonoBehaviour
         yield return request.SendWebRequest();
         if (request.isDone)
         {
-            _elements[i].Name.text = name;
-            _elements[i].Icon.texture = ((DownloadHandlerTexture) request.downloadHandler).texture;
-            _elements[i].id = i+1;
+            Elements[i].Name.text = name;
+            Elements[i].Icon.texture = ((DownloadHandlerTexture) request.downloadHandler).texture;
+            Elements[i].id = i+1;
+            if(FavouriteGames.Games.Contains(Elements[i].id))
+            {
+                Elements[i].IsFavourite = true;
+                Debug.Log(Elements[i].id + " fav game");
+            }
+            else
+            {
+                Elements[i].IsFavourite = false;
+            }
             Debug.Log("Done");
-            Instantiate(_elements[i], _container.transform, false);
+            Instantiate(Elements[i], _container.transform, false);
         }
     }
     
