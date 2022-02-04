@@ -18,6 +18,7 @@ public class Element : MonoBehaviour
     public Button Click;
     public CanvasGroup MainPanel;
     public bool IsFavourite = false;
+    public GameObject GameElement;
 
     private GameObject _window;
     private GameWindow _gameWindow;

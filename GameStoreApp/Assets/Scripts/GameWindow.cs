@@ -10,12 +10,12 @@ using UnityEngine.UI;
 
 public class GameWindow : MonoBehaviour
 {
-    [SerializeField]private RawImage _icon;
-    [SerializeField]private TMP_InputField _name;
-    [SerializeField]private Text _description;
-    [SerializeField]private Button _starBtn;
-    [SerializeField]private Button _backBtn;
-    [SerializeField] private FireBase _fireBase; 
+    [SerializeField] private RawImage _icon;
+    [SerializeField] private TMP_InputField _name;
+    [SerializeField] private Text _description;
+    [SerializeField] private Button _starBtn;
+    [SerializeField] private Button _backBtn;
+    [SerializeField] private FireBase _fireBase;
 
     private GameObject _mainPanel;
     private CanvasGroup _mainFrame;
@@ -28,7 +28,7 @@ public class GameWindow : MonoBehaviour
         _gameFrame = gameObject.GetComponent<CanvasGroup>();
         _mainPanel = GameObject.FindGameObjectWithTag("MainFrame");
         _mainFrame = _mainPanel.GetComponent<CanvasGroup>();
-        
+
         _backBtn.onClick.AddListener(CloseWindow);
         _starBtn.onClick.AddListener(StarBtnClick);
     }
@@ -43,7 +43,9 @@ public class GameWindow : MonoBehaviour
         _mainFrame.interactable = true;
         _mainFrame.blocksRaycasts = true;
     }
-    public void ReciveData(RawImage icon, string name, string description, string platform, string genre, string price, int id)
+
+    public void ReciveData(RawImage icon, string name, string description, string platform, string genre, string price,
+        int id)
     {
         Debug.Log("Receiving data... ");
         string fullDescription = $"Цена: {price}\n" +
@@ -92,7 +94,7 @@ public class GameWindow : MonoBehaviour
     {
         var dbTask = _fireBase.DBreference.Child("Users").Child(_fireBase.User.UserId).GetValueAsync();
         yield return new WaitUntil(predicate: () => dbTask.IsCompleted);
-        
+
         if (dbTask.Exception != null)
         {
             Debug.LogWarning(message: $"Failed to register task with {dbTask.Exception}");
@@ -105,7 +107,8 @@ public class GameWindow : MonoBehaviour
 
             var dbTask1 = _fireBase.DBreference.Child("Users").Child(_fireBase.User.UserId).Child("Count")
                 .SetValueAsync(count.ToString());
-            var dbTask2 = _fireBase.DBreference.Child("Users").Child(_fireBase.User.UserId).Child(count.ToString()).SetValueAsync(id.ToString());
+            var dbTask2 = _fireBase.DBreference.Child("Users").Child(_fireBase.User.UserId).Child(count.ToString())
+                .SetValueAsync(id.ToString());
 
             yield return new WaitUntil(predicate: () => dbTask1.IsCompleted && dbTask2.IsCompleted);
             if (dbTask1.Exception != null || dbTask2.Exception != null)
@@ -129,7 +132,7 @@ public class GameWindow : MonoBehaviour
     {
         var dbTask = _fireBase.DBreference.Child("Users").Child(_fireBase.User.UserId).GetValueAsync();
         yield return new WaitUntil(predicate: () => dbTask.IsCompleted);
-        
+
         if (dbTask.Exception != null)
         {
             Debug.LogWarning(message: $"Failed to register task with {dbTask.Exception}");
@@ -139,7 +142,7 @@ public class GameWindow : MonoBehaviour
             DataSnapshot snapshot = dbTask.Result;
             int count = Convert.ToInt32(snapshot.Child("Count").Value);
             int favId = 0;
-            
+
             for (int i = 1; i <= count; i++)
             {
                 if (Convert.ToInt32(snapshot.Child(i.ToString()).Value) == id)
@@ -147,41 +150,43 @@ public class GameWindow : MonoBehaviour
                     favId = i;
                 }
             }
-            
-            if (favId != count)
+
+            int gameId;
+
+            for (int i = favId; i <= count; i++)
             {
-                int gameId;
-                int startGame = favId++;
-                
-                for (int i = startGame; i <= count+1; i++)
+                if (i == favId)
+                {
+                    var dbTask3 = _fireBase.DBreference.Child("Users").Child(_fireBase.User.UserId)
+                        .Child(favId.ToString())
+                        .RemoveValueAsync();
+                    yield return new WaitUntil(predicate: () => dbTask3.IsCompleted);
+                }
+                else if (favId <= count)
                 {
                     gameId = Convert.ToInt32(snapshot.Child(i.ToString()).Value);
-                    
+
                     var dbTask1 = _fireBase.DBreference.Child("Users").Child(_fireBase.User.UserId).Child(i.ToString())
                         .RemoveValueAsync();
 
-                    int newId = i--;
+                    int newId = i - 1;
                     var dbTask2 = _fireBase.DBreference.Child("Users").Child(_fireBase.User.UserId).Child(newId.ToString())
                         .SetValueAsync(gameId.ToString());
                     yield return new WaitUntil(predicate: () => dbTask1.IsCompleted && dbTask2.IsCompleted);
                 }
+                
             }
-           
+
             count--;
-            var dbTask3 = _fireBase.DBreference.Child("Users").Child(_fireBase.User.UserId).Child(favId.ToString())
-                .RemoveValueAsync();
             var dbTask4 = _fireBase.DBreference.Child("Users").Child(_fireBase.User.UserId).Child("Count")
                 .SetValueAsync(count.ToString());
-            yield return new WaitUntil(predicate: () => dbTask3.IsCompleted && dbTask4.IsCompleted);
-            
+            yield return new WaitUntil(predicate: () => dbTask4.IsCompleted);
+
             FavouriteGames.Games.Remove(id);
-            ContentUpdate.Elements[id-1].IsFavourite = false;
+            ContentUpdate.Elements[id - 1].IsFavourite = false;
             _starBtn.image.color = Color.white;
             isFavourite = false;
             Debug.Log("Favourite game removed!");
-            
         }
-        
     }
-    
 }

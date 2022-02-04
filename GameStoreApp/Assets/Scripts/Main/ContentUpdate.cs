@@ -17,7 +17,7 @@ using UnityEngine.UI;
 public class ContentUpdate : MonoBehaviour
 {
     public static List<Element> Elements = new List<Element>();
-    
+
     [SerializeField] private FireBase _fireBase;
     [SerializeField] private Auth _auth;
     [SerializeField] private GameObject _container;
@@ -51,7 +51,7 @@ public class ContentUpdate : MonoBehaviour
         _mainFrame.blocksRaycasts = true;
     }
     
-    private IEnumerator LoadUserData()
+    public IEnumerator LoadUserData()
     {
         string name = "error";
         var DBTask = _fireBase.DBreference.Child("Games").GetValueAsync();
@@ -125,6 +125,7 @@ public class ContentUpdate : MonoBehaviour
                 Elements[i].IsFavourite = false;
             }
             Debug.Log("Done");
+            CurrentGames.CurrentElements.Add(Elements[i].GameElement);
             Instantiate(Elements[i], _container.transform, false);
         }
     }

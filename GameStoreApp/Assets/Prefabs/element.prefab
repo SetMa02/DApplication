@@ -93,6 +93,9 @@ MonoBehaviour:
   Icon: {fileID: 7854354331080625213}
   Name: {fileID: 6433347963370432531}
   Click: {fileID: 8227910622371796462}
+  MainPanel: {fileID: 0}
+  IsFavourite: 0
+  GameElement: {fileID: 4016195255102331909}
 --- !u!114 &8227910622371796462
 MonoBehaviour:
   m_ObjectHideFlags: 0
