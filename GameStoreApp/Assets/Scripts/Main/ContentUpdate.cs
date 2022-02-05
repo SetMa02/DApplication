@@ -16,13 +16,14 @@ using UnityEngine.UI;
 [RequireComponent(typeof(CanvasGroup))]
 public class ContentUpdate : MonoBehaviour
 {
-    public static List<Element> Elements = new List<Element>();
+    public static List<Element> Elements;
+    public static StorageReference gsReference;
 
     [SerializeField] private FireBase _fireBase;
     [SerializeField] private Auth _auth;
     [SerializeField] private GameObject _container;
     [SerializeField] private Element _prefab;
-    
+
     private FirebaseStorage _storage;
     private StorageReference _storageReference;
     private  StorageReference _fileReference; 
@@ -30,6 +31,7 @@ public class ContentUpdate : MonoBehaviour
   
     private void Start()
     {
+        Elements = new List<Element>() { };
         _mainFrame = gameObject.GetComponent<CanvasGroup>();
     }
 
@@ -68,6 +70,8 @@ public class ContentUpdate : MonoBehaviour
             Snapshot.DbSnapshot = snapshot;
             
             int countOfGames = Convert.ToInt32(snapshot.Child("Count").Value.ToString());
+            Snapshot.GamesCount = countOfGames;
+            
             for (int i = 0; i < countOfGames; i++)
             {
                 Elements.Add(_prefab);
@@ -79,7 +83,7 @@ public class ContentUpdate : MonoBehaviour
                 Elements[i].MainPanel = _mainFrame;
                 name = snapshot.Child(DBElement).Child("Name").Value.ToString();
                
-                StorageReference gsReference =
+                gsReference =
                     _fireBase.Storage.GetReferenceFromUrl("gs://diplomapplication-a861f.appspot.com/" + snapshot.Child(DBElement).Child("Image").Value);
                 
                 StartCoroutine(SendLoadRequest(gsReference, i, name));
@@ -125,7 +129,6 @@ public class ContentUpdate : MonoBehaviour
                 Elements[i].IsFavourite = false;
             }
             Debug.Log("Done");
-            CurrentGames.CurrentElements.Add(Elements[i].GameElement);
             Instantiate(Elements[i], _container.transform, false);
         }
     }

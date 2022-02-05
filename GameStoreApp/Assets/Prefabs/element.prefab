@@ -89,12 +89,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e5ca92d40ecce84eae3d4acdf4c8d4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  id: 2
   Icon: {fileID: 7854354331080625213}
   Name: {fileID: 6433347963370432531}
   Click: {fileID: 8227910622371796462}
   MainPanel: {fileID: 0}
-  IsFavourite: 0
+  IsFavourite: 1
   GameElement: {fileID: 4016195255102331909}
 --- !u!114 &8227910622371796462
 MonoBehaviour:
@@ -272,7 +272,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: Battlefield 2042
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
