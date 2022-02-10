@@ -16,7 +16,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(CanvasGroup))]
 public class ContentUpdate : MonoBehaviour
 {
-    public static List<Element> Elements;
+    public List<GameObject> Elements;
     public static StorageReference gsReference;
 
     [SerializeField] private FireBase _fireBase;
@@ -31,7 +31,7 @@ public class ContentUpdate : MonoBehaviour
   
     private void Start()
     {
-        Elements = new List<Element>() { };
+        Elements = new List<GameObject>() { };
         _mainFrame = gameObject.GetComponent<CanvasGroup>();
     }
 
@@ -74,24 +74,25 @@ public class ContentUpdate : MonoBehaviour
             
             for (int i = 0; i < countOfGames; i++)
             {
-                Elements.Add(_prefab);
+                Elements.Add(_prefab.gameObject);
             }
             
             for (int i = 0; i < Elements.Count; i++)
             {
+                Element element = Elements[i].GetComponent<Element>();
                 string DBElement = (i + 1).ToString();
-                Elements[i].MainPanel = _mainFrame;
+                element.MainPanel = _mainFrame;
                 name = snapshot.Child(DBElement).Child("Name").Value.ToString();
                
                 gsReference =
                     _fireBase.Storage.GetReferenceFromUrl("gs://diplomapplication-a861f.appspot.com/" + snapshot.Child(DBElement).Child("Image").Value);
                 
-                StartCoroutine(SendLoadRequest(gsReference, i, name));
+                StartCoroutine(SendLoadRequest(gsReference, i, name, element));
             }
         }
     }
 
-    IEnumerator SendLoadRequest( StorageReference reference, int i, string name)
+    public  IEnumerator SendLoadRequest( StorageReference reference, int i, string name, Element element)
     {
         string url = "null";
         bool isReady = false;
@@ -105,28 +106,28 @@ public class ContentUpdate : MonoBehaviour
             }
         });
         yield return new WaitUntil(() => isReady == true);
-        StartCoroutine(LoadImage(url, i, name));
+        StartCoroutine(LoadImage(url, i, name, element));
     }
     
     
-    public IEnumerator LoadImage(string URL, int i, string name)
+    public IEnumerator LoadImage(string URL, int i, string name, Element element)
     {
         Debug.Log("Starting load image...");
         UnityWebRequest request = UnityWebRequestTexture.GetTexture(URL);
         yield return request.SendWebRequest();
         if (request.isDone)
         {
-            Elements[i].Name.text = name;
-            Elements[i].Icon.texture = ((DownloadHandlerTexture) request.downloadHandler).texture;
-            Elements[i].id = i+1;
-            if(FavouriteGames.Games.Contains(Elements[i].id))
+            element.Name.text = name;
+            element.Icon.texture = ((DownloadHandlerTexture) request.downloadHandler).texture;
+            element.id = i+1;
+            if(FavouriteGames.Games.Contains( element.id))
             {
-                Elements[i].IsFavourite = true;
-                Debug.Log(Elements[i].id + " fav game");
+                element.IsFavourite = true;
+                Debug.Log( element.id + " fav game");
             }
             else
             {
-                Elements[i].IsFavourite = false;
+                element.IsFavourite = false;
             }
             Debug.Log("Done");
             Instantiate(Elements[i], _container.transform, false);

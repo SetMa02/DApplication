@@ -16,6 +16,7 @@ public class GameWindow : MonoBehaviour
     [SerializeField] private Button _starBtn;
     [SerializeField] private Button _backBtn;
     [SerializeField] private FireBase _fireBase;
+    [SerializeField] private ContentUpdate _contentUpdate;
 
     private GameObject _mainPanel;
     private CanvasGroup _mainFrame;
@@ -122,7 +123,8 @@ public class GameWindow : MonoBehaviour
                 Debug.Log("Favourite game set!");
             }
 
-            ContentUpdate.Elements[id - 1].IsFavourite = true;
+            Element element = _contentUpdate.Elements[id - 1].GetComponent<Element>();
+            element.IsFavourite = true;
             isFavourite = true;
             FavouriteGames.Games.Add(id);
         }
@@ -183,7 +185,8 @@ public class GameWindow : MonoBehaviour
             yield return new WaitUntil(predicate: () => dbTask4.IsCompleted);
 
             FavouriteGames.Games.Remove(id);
-            ContentUpdate.Elements[id - 1].IsFavourite = false;
+            Element element = _contentUpdate.Elements[id - 1].GetComponent<Element>();
+            element.IsFavourite = false;
             _starBtn.image.color = Color.white;
             isFavourite = false;
             Debug.Log("Favourite game removed!");

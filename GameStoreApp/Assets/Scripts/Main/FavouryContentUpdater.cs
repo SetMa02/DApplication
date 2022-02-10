@@ -75,8 +75,20 @@ public class FavouryContentUpdater : MonoBehaviour
             DestroyImmediate(child.gameObject);
         }
     }
-
-
+/*
+    private void LoadFavourites()
+    {
+        foreach (var el in _content.Elements)
+        {
+            Element element = el.GetComponent<Element>();
+            if (element.IsFavourite == true)
+            {
+                Instantiate(el, _container.transform, false);
+            }
+        }
+    }
+    */
+    
     private IEnumerator LoadFavourites()
     {
         var DBTask = _fireBase.DBreference.Child("Games").GetValueAsync();
@@ -157,4 +169,5 @@ public class FavouryContentUpdater : MonoBehaviour
             }
         }
     }
+    
 }

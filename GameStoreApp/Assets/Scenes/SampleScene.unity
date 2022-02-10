@@ -488,6 +488,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aededb5cba53a414087c1c1ce8df2bf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Elements: []
   _fireBase: {fileID: 1461923070}
   _auth: {fileID: 207666429}
   _container: {fileID: 788989509}
@@ -2315,7 +2316,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -4237,6 +4238,7 @@ MonoBehaviour:
   _starBtn: {fileID: 570137730}
   _backBtn: {fileID: 1322511075}
   _fireBase: {fileID: 1461923070}
+  _contentUpdate: {fileID: 134111161}
 --- !u!1 &1461923069
 GameObject:
   m_ObjectHideFlags: 0
@@ -4850,7 +4852,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -5345,7 +5347,7 @@ MonoBehaviour:
       m_Calls: []
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
-  m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
+  m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 1}
   m_Text: 
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
@@ -5363,7 +5365,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.46226418, g: 0.46226418, b: 0.46226418, a: 1}
+  m_Color: {r: 0.3018868, g: 0.3018868, b: 0.3018868, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -5399,6 +5401,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _container: {fileID: 788989509}
+  _fireBase: {fileID: 1461923070}
   _mainFrame: {fileID: 134111160}
   _inputField: {fileID: 2009771694}
   _contentUpdate: {fileID: 134111161}
