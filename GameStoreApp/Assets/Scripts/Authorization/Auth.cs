@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Firebase;
 using Firebase.Auth;
+using Firebase.Database;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -19,6 +20,7 @@ public class Auth : MonoBehaviour
     [SerializeField] private TMP_Text _loginText;
 
     public event UnityAction UserSigned;
+    public bool IsAdmin = false;
     
     private CanvasGroup _frame;
     private Button _regButton;
@@ -86,19 +88,19 @@ public class Auth : MonoBehaviour
             switch (errorCode)
             {
                 case AuthError.MissingEmail:
-                    message = "Missing Email";
+                    message = "Введите логин";
                     break;
                 case AuthError.MissingPassword:
-                    message = "Missing Password";
+                    message = "Введите пароль";
                     break;
                 case AuthError.WrongPassword:
-                    message = "Wrong Password";
+                    message = "Неверный пароль";
                     break;
                 case AuthError.InvalidEmail:
-                    message = "Invalid Email";
+                    message = "Неверый логин";
                     break;
                 case AuthError.UserNotFound:
-                    message = "Account does not exist";
+                    message = "Такого аккаунта не существует";
                     break;
             }
 
@@ -110,7 +112,32 @@ public class Auth : MonoBehaviour
             _frame.alpha = 0;
             _frame.interactable = false;
             _frame.blocksRaycasts = false;
+
+            var DBTask = _fireBase.DBreference.Child("Admins").GetValueAsync();
+
+            yield return new WaitUntil(predicate: () => DBTask.IsCompleted);
+
+            DataSnapshot snapshot = DBTask.Result;
+            
+            if (snapshot.Child(_fireBase.User.UserId).Exists)
+            {
+                Admin.IsAdmin = true;
+                if (snapshot.Child(_fireBase.User.UserId).Child("CanChange").Value.ToString() == "true")
+                    Admin.CanChange = true;
+                if (snapshot.Child(_fireBase.User.UserId).Child("CanAdd").Value.ToString() == "true")
+                    Admin.CanAdd = true;
+                if (snapshot.Child(_fireBase.User.UserId).Child("CanDelete").Value.ToString() == "true")
+                    Admin.CanDelete = true;
+                if (snapshot.Child(_fireBase.User.UserId).Child("CanAddEmployee").Value.ToString() == "true")
+                    Admin.CanAddEmployee = true;
+                if (snapshot.Child(_fireBase.User.UserId).Child("CanDeleteEmployee").Value.ToString() == "true")
+                    Admin.CanDeleteEmployee = true;
+                
+                Debug.Log("User signed as ADMIN");
+            }
+            
             Debug.LogFormat("User signed in successfully: {0} ", _fireBase.User.Email);
+            
             UserSigned?.Invoke();
         }
     }

@@ -31,12 +31,14 @@ public class ContentUpdate : MonoBehaviour
   
     private void Start()
     {
+        ClearChildren();
         Elements = new List<GameObject>() { };
         _mainFrame = gameObject.GetComponent<CanvasGroup>();
     }
 
     private void OnEnable()
     {
+        ClearChildren();
         _auth.UserSigned += UserIsSigned;
     }
 
@@ -131,6 +133,24 @@ public class ContentUpdate : MonoBehaviour
             }
             Debug.Log("Done");
             Instantiate(Elements[i], _container.transform, false);
+        }
+    }
+    
+    private void ClearChildren()
+    {
+        int i = 0;
+
+        GameObject[] allChildren = new GameObject[_container.transform.childCount];
+
+        foreach (Transform child in _container.transform)
+        {
+            allChildren[i] = child.gameObject;
+            i += 1;
+        }
+        
+        foreach (GameObject child in allChildren)
+        {
+            DestroyImmediate(child.gameObject);
         }
     }
     

@@ -6,7 +6,7 @@ using Firebase.Database;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class UserData : User
+public class AdminData : Admin
 {
     [SerializeField] private FireBase _fireBase;
     [SerializeField] private Auth _auth;

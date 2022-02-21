@@ -17,6 +17,7 @@ public class GameWindow : MonoBehaviour
     [SerializeField] private Button _backBtn;
     [SerializeField] private FireBase _fireBase;
     [SerializeField] private ContentUpdate _contentUpdate;
+    [SerializeField] private Text _favText;
 
     private GameObject _mainPanel;
     private CanvasGroup _mainFrame;
@@ -62,10 +63,12 @@ public class GameWindow : MonoBehaviour
         if (FavouriteGames.Games.Contains(id))
         {
             isFavourite = true;
+            _favText.text = "Убрать избранные";
         }
         else
         {
             isFavourite = false;
+            _favText.text = "В избранные";
         }
 
         if (isFavourite == true)
@@ -83,11 +86,13 @@ public class GameWindow : MonoBehaviour
         if (isFavourite == false)
         {
             StartCoroutine(SetFavourite(_id));
+            _favText.text = "Убрать избранные";
         }
 
         if (isFavourite == true)
         {
             StartCoroutine(RemoveFavourite(_id));
+            _favText.text = "В избранные";
         }
     }
 
