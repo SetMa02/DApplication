@@ -122,18 +122,37 @@ public class Auth : MonoBehaviour
             if (snapshot.Child(_fireBase.User.UserId).Exists)
             {
                 Admin.IsAdmin = true;
-                if (snapshot.Child(_fireBase.User.UserId).Child("CanChange").Value.ToString() == "true")
-                    Admin.CanChange = true;
-                if (snapshot.Child(_fireBase.User.UserId).Child("CanAdd").Value.ToString() == "true")
-                    Admin.CanAdd = true;
-                if (snapshot.Child(_fireBase.User.UserId).Child("CanDelete").Value.ToString() == "true")
-                    Admin.CanDelete = true;
-                if (snapshot.Child(_fireBase.User.UserId).Child("CanAddEmployee").Value.ToString() == "true")
-                    Admin.CanAddEmployee = true;
-                if (snapshot.Child(_fireBase.User.UserId).Child("CanDeleteEmployee").Value.ToString() == "true")
-                    Admin.CanDeleteEmployee = true;
-                
                 Debug.Log("User signed as ADMIN");
+                
+                if (snapshot.Child(_fireBase.User.UserId).Child("CanChange").Exists )
+                {
+                    Admin.CanChange = true;
+                    Debug.Log("change");
+                }
+                if (snapshot.Child(_fireBase.User.UserId).Child("CanAdd").Exists)
+                {
+                    Admin.CanAdd = true;
+                    Debug.Log("add");
+
+                }
+                if (snapshot.Child(_fireBase.User.UserId).Child("CanDelete").Exists)
+                {
+                     Admin.CanDelete = true;
+                     Debug.Log("delete");
+
+                }
+                if (snapshot.Child(_fireBase.User.UserId).Child("CanAddEmployee").Exists)
+                {
+                    Admin.CanAddEmployee = true;
+                    Debug.Log("empAdd");
+
+                }
+                if (snapshot.Child(_fireBase.User.UserId).Child("CanDeleteEmployee").Exists)
+                {
+                    Admin.CanDeleteEmployee = true;
+                    Debug.Log("EmpDelete");
+                }
+                
             }
             
             Debug.LogFormat("User signed in successfully: {0} ", _fireBase.User.Email);
