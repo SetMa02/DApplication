@@ -7,6 +7,7 @@ using Firebase.Database;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR;
 
 public class GameWindow : MonoBehaviour
 {
@@ -18,15 +19,23 @@ public class GameWindow : MonoBehaviour
     [SerializeField] private FireBase _fireBase;
     [SerializeField] private ContentUpdate _contentUpdate;
     [SerializeField] private Text _favText;
+    [SerializeField] private Button _editButton;
+    [SerializeField] private CanvasGroup _editWindow;
 
+    public CurrentGame CurrentGame;
     private GameObject _mainPanel;
     private CanvasGroup _mainFrame;
     private CanvasGroup _gameFrame;
     private int _id;
+    private string _desc;
     private bool isFavourite = false;
+    private string _genre;
+    private string _platform;
+    private string _price;
 
     private void Start()
     {
+        _editButton.onClick.AddListener(EditButtonClick);
         _gameFrame = gameObject.GetComponent<CanvasGroup>();
         _mainPanel = GameObject.FindGameObjectWithTag("MainFrame");
         _mainFrame = _mainPanel.GetComponent<CanvasGroup>();
@@ -58,6 +67,10 @@ public class GameWindow : MonoBehaviour
         _name.text = name;
         _name.readOnly = true;
         _description.text = fullDescription;
+        _desc = description;
+        _genre = genre;
+        _price = price;
+        _platform = platform;
         _id = id;
 
         if (FavouriteGames.Games.Contains(id))
@@ -79,6 +92,15 @@ public class GameWindow : MonoBehaviour
         {
             _starBtn.image.color = Color.white;
         }
+    }
+
+    private void EditButtonClick()
+    {
+        LoadGame.LoadGameData(_id,_icon, _name.text, _desc, _genre, _price, _platform);
+        _editWindow.alpha = 1;
+        _editWindow.interactable = true;
+        _editWindow.blocksRaycasts = true;
+        CurrentGame.SetData();
     }
 
     private void StarBtnClick()
