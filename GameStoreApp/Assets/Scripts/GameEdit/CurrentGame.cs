@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,6 +13,7 @@ public class CurrentGame : MonoBehaviour
     public InputField _price;
     public Dropdown _platform;
     
+    public  String NewPlatform;
     public static int Id;
     public static RawImage Icon;
     public static string Name;
@@ -19,10 +21,52 @@ public class CurrentGame : MonoBehaviour
     public static string Genres;
     public static string Platform;
     public static string Price;
-    
+    public static string ImageName;
+    public static byte[] ImageData;
+    public static bool IsNewGame = false;
+
+    private void Start()
+    {
+        _platform.onValueChanged.AddListener(delegate{
+            PlatformChanged();
+        });
+    }
+
+    private void PlatformChanged()
+    {
+        switch (_platform.value)
+        {
+            case 0:
+                NewPlatform = "Ps4";
+                break;
+            case 1:
+                NewPlatform = "Ps5";
+                break;
+            case 2:
+                NewPlatform = "Xbox one";
+                break;
+            case 3:
+                NewPlatform = "Xbox one X";
+                break;
+            case 4:
+                NewPlatform = "PC";
+                break;
+            case 5:
+                NewPlatform = "Nintendo switch";
+                break;
+        }
+    }
+
     public void SetData()
     {
-        _image.texture = Icon.texture;
+        try
+        {
+            _image.texture = Icon.texture;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
         _name.text = Name;
         _desc.text = Description;
         _genre.text = Genres;

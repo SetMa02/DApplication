@@ -96,6 +96,7 @@ public class GameWindow : MonoBehaviour
 
     private void EditButtonClick()
     {
+        global::CurrentGame.IsNewGame = false;
         LoadGame.LoadGameData(_id,_icon, _name.text, _desc, _genre, _price, _platform);
         _editWindow.alpha = 1;
         _editWindow.interactable = true;

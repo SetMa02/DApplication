@@ -10,7 +10,10 @@ public class LoadGame : MonoBehaviour
     public static void LoadGameData(int id,RawImage rawImage, string name, string desc, string genre, string price, string platform)
     {
         CurrentGame.Id = id;
-        CurrentGame.Icon = rawImage;
+        if (rawImage != null)
+        {
+            CurrentGame.Icon = rawImage;
+        }
         CurrentGame.Name = name;
         CurrentGame.Description = desc;
         CurrentGame.Genres = genre;

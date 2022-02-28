@@ -4484,6 +4484,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b706bff3374ce2479733ae94e19295f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _image: {fileID: 653278024}
 --- !u!1 &1042762481
 GameObject:
   m_ObjectHideFlags: 0
@@ -7161,6 +7162,7 @@ GameObject:
   - component: {fileID: 1584394822}
   - component: {fileID: 1584394821}
   - component: {fileID: 1584394824}
+  - component: {fileID: 1584394825}
   m_Layer: 5
   m_Name: AddGame
   m_TagString: Untagged
@@ -7279,6 +7281,20 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!114 &1584394825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1584394819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3d0c65fc5680f94b95cbb403f020c02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _editWindow: {fileID: 1695456127}
+  _currentGame: {fileID: 1695456128}
 --- !u!1 &1614681717
 GameObject:
   m_ObjectHideFlags: 0
@@ -7967,6 +7983,7 @@ MonoBehaviour:
   _genre: {fileID: 1877776944}
   _price: {fileID: 1680554323}
   _platform: {fileID: 821300201}
+  NewPlatform: 
 --- !u!114 &1695456129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9764,7 +9781,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.057406902, y: 0.21274415}
   m_AnchorMax: {x: 0.39733338, y: 0.261}
-  m_AnchoredPosition: {x: 0.5, y: 478.3683}
+  m_AnchoredPosition: {x: 0.5, y: 478.3678}
   m_SizeDelta: {x: -24.699982, y: -44.933105}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2055763266
