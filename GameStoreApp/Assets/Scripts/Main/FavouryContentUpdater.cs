@@ -17,6 +17,7 @@ public class FavouryContentUpdater : MonoBehaviour
     [SerializeField] private Element _prefab;
     [SerializeField] private CanvasGroup _mainFrame;
     [SerializeField] private ContentUpdate _content;
+    [SerializeField] private GameObject _emailButton;
 
     private List<Element> _currentGames = new List<Element>();
 
@@ -35,11 +36,13 @@ public class FavouryContentUpdater : MonoBehaviour
         {
             ShowAll();
             _isPressed = false;
+            _emailButton.SetActive(false);
         }   
         else if (_isPressed == false)
         {
             ShowFavourite();
             _isPressed = true;
+            _emailButton.SetActive(true);
         }
     }
 
