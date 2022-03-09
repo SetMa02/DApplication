@@ -11,6 +11,9 @@ using UnityEngine.XR;
 
 public class GameWindow : MonoBehaviour
 {
+    public int Id;
+    public CanvasGroup GameFrame;
+    
     [SerializeField] private RawImage _icon;
     [SerializeField] private TMP_InputField _name;
     [SerializeField] private Text _description;
@@ -25,8 +28,6 @@ public class GameWindow : MonoBehaviour
     public CurrentGame CurrentGame;
     private GameObject _mainPanel;
     private CanvasGroup _mainFrame;
-    private CanvasGroup _gameFrame;
-    private int _id;
     private string _desc;
     private bool isFavourite = false;
     private string _genre;
@@ -36,7 +37,7 @@ public class GameWindow : MonoBehaviour
     private void Start()
     {
         _editButton.onClick.AddListener(EditButtonClick);
-        _gameFrame = gameObject.GetComponent<CanvasGroup>();
+        GameFrame = gameObject.GetComponent<CanvasGroup>();
         _mainPanel = GameObject.FindGameObjectWithTag("MainFrame");
         _mainFrame = _mainPanel.GetComponent<CanvasGroup>();
 
@@ -46,9 +47,9 @@ public class GameWindow : MonoBehaviour
 
     public void CloseWindow()
     {
-        _gameFrame.alpha = 0;
-        _gameFrame.interactable = false;
-        _gameFrame.blocksRaycasts = false;
+        GameFrame.alpha = 0;
+        GameFrame.interactable = false;
+        GameFrame.blocksRaycasts = false;
 
         _mainFrame.alpha = 1;
         _mainFrame.interactable = true;
@@ -71,7 +72,7 @@ public class GameWindow : MonoBehaviour
         _genre = genre;
         _price = price;
         _platform = platform;
-        _id = id;
+        Id = id;
 
         if (FavouriteGames.Games.Contains(id))
         {
@@ -97,7 +98,7 @@ public class GameWindow : MonoBehaviour
     private void EditButtonClick()
     {
         global::CurrentGame.IsNewGame = false;
-        LoadGame.LoadGameData(_id,_icon, _name.text, _desc, _genre, _price, _platform);
+        LoadGame.LoadGameData(Id,_icon, _name.text, _desc, _genre, _price, _platform);
         _editWindow.alpha = 1;
         _editWindow.interactable = true;
         _editWindow.blocksRaycasts = true;
@@ -108,13 +109,13 @@ public class GameWindow : MonoBehaviour
     {
         if (isFavourite == false)
         {
-            StartCoroutine(SetFavourite(_id));
+            StartCoroutine(SetFavourite(Id));
             _favText.text = "Убрать избранные";
         }
 
         if (isFavourite == true)
         {
-            StartCoroutine(RemoveFavourite(_id));
+            StartCoroutine(RemoveFavourite(Id));
             _favText.text = "В избранные";
         }
     }
@@ -171,16 +172,8 @@ public class GameWindow : MonoBehaviour
         {
             DataSnapshot snapshot = dbTask.Result;
             int count = Convert.ToInt32(snapshot.Child("Count").Value);
-            int favId = 0;
-
-            for (int i = 1; i <= count; i++)
-            {
-                if (Convert.ToInt32(snapshot.Child(i.ToString()).Value) == id)
-                {
-                    favId = i;
-                }
-            }
-
+            int favId = id;
+            
             int gameId;
 
             for (int i = favId; i <= count; i++)

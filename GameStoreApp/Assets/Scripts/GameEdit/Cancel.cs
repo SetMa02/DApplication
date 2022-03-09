@@ -6,7 +6,8 @@ using UnityEngine.UI;
 
 public class Cancel : MonoBehaviour
 {
-    [SerializeField] private CanvasGroup _editWindow;
+    [SerializeField] private CanvasGroup _closeWindow;
+    [SerializeField] private CanvasGroup _targetWindow;
 
     private Button _cancelButton;
     private void Start()
@@ -17,8 +18,12 @@ public class Cancel : MonoBehaviour
 
     public void CancelButtonClick()
     {
-        _editWindow.alpha = 0;
-        _editWindow.interactable = false;
-        _editWindow.blocksRaycasts = false;
+        _closeWindow.alpha = 0;
+        _closeWindow.interactable = false;
+        _closeWindow.blocksRaycasts = false;
+
+        _targetWindow.alpha = 1;
+        _targetWindow.interactable = true;
+        _targetWindow.blocksRaycasts = true;
     }
 }
