@@ -118,43 +118,43 @@ public class Auth : MonoBehaviour
             yield return new WaitUntil(predicate: () => DBTask.IsCompleted);
 
             DataSnapshot snapshot = DBTask.Result;
-            
-            if (snapshot.Child(_fireBase.User.UserId).Exists)
+
+            for (int i = 1; i <= snapshot.ChildrenCount; i++)
             {
-                Admin.IsAdmin = true;
-                Debug.Log("User signed as ADMIN");
+                if (snapshot.Child(i.ToString()).Child("UserId").Value.ToString() == _fireBase.User.UserId)
+                {
+                    Admin.IsAdmin = true;
+                    Debug.Log("User signed as ADMIN");
+                    
+                    if (snapshot.Child(i.ToString()).Child("CanChange").Value.Equals(true))
+                    {
+                        Admin.CanChange = true;
+                        Debug.Log("change");
+                    }
+                    if (snapshot.Child(i.ToString()).Child("CanAdd").Value.Equals(true))
+                    {
+                        Admin.CanAdd = true;
+                        Debug.Log("add");
+                    }
+                    if (snapshot.Child(i.ToString()).Child("CanDelete").Value.Equals(true))
+                    {
+                        Admin.CanDelete = true;
+                        Debug.Log("delete");
+                    }
+                    if (snapshot.Child(i.ToString()).Child("CanAddEmployee").Value.Equals(true))
+                    {
+                        Admin.CanAddEmployee = true;
+                        Debug.Log("empAdd");
+                    }
                 
-                if (snapshot.Child(_fireBase.User.UserId).Child("CanChange").Exists )
-                {
-                    Admin.CanChange = true;
-                    Debug.Log("change");
+                    if (snapshot.Child(i.ToString()).Child("CanDeleteEmployee").Value.Equals(true))
+                    {
+                        Admin.CanDeleteEmployee = true;
+                        Debug.Log("EmpDelete");
+                    }
                 }
-                if (snapshot.Child(_fireBase.User.UserId).Child("CanAdd").Exists)
-                {
-                    Admin.CanAdd = true;
-                    Debug.Log("add");
-
-                }
-                if (snapshot.Child(_fireBase.User.UserId).Child("CanDelete").Exists)
-                {
-                     Admin.CanDelete = true;
-                     Debug.Log("delete");
-
-                }
-                if (snapshot.Child(_fireBase.User.UserId).Child("CanAddEmployee").Exists)
-                {
-                    Admin.CanAddEmployee = true;
-                    Debug.Log("empAdd");
-
-                }
-                if (snapshot.Child(_fireBase.User.UserId).Child("CanDeleteEmployee").Exists)
-                {
-                    Admin.CanDeleteEmployee = true;
-                    Debug.Log("EmpDelete");
-                }
-                
+               
             }
-            
             Debug.LogFormat("User signed in successfully: {0} ", _fireBase.User.Email);
             
             UserSigned?.Invoke();

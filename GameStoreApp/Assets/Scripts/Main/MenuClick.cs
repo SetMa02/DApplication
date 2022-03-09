@@ -72,7 +72,7 @@ public class MenuClick : MonoBehaviour
         _isOpen = true;
     }
 
-    private void CloseMenu()
+    public void CloseMenu()
     {
         transform.LeanRotate(new Vector3(0, 0, 0), 0.25f);
         _menuPanel.transform.LeanMoveLocal(new Vector3(750, 815.65f), 0.25f);
