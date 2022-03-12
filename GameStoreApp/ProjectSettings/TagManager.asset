@@ -6,6 +6,7 @@ TagManager:
   tags:
   - GameWindow
   - MainFrame
+  - CurrentEmployee
   layers:
   - Default
   - TransparentFX

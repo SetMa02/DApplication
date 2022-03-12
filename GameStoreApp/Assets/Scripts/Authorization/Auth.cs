@@ -119,6 +119,7 @@ public class Auth : MonoBehaviour
 
             DataSnapshot snapshot = DBTask.Result;
 
+     
             for (int i = 1; i <= snapshot.ChildrenCount; i++)
             {
                 if (snapshot.Child(i.ToString()).Child("UserId").Value.ToString() == _fireBase.User.UserId)
@@ -155,6 +156,7 @@ public class Auth : MonoBehaviour
                 }
                
             }
+  
             Debug.LogFormat("User signed in successfully: {0} ", _fireBase.User.Email);
             
             UserSigned?.Invoke();

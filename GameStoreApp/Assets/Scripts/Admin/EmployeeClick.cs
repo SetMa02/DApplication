@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace.Admin;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,7 @@ public class EmployeeClick : MonoBehaviour
     [SerializeField] private CanvasGroup _empCanvasGroup;
     [SerializeField] private CanvasGroup _mainPanelCanvasGroup;
     [SerializeField] private MenuClick _menuClick;
+    [SerializeField] private EmployeeContentUpdater _employeeContentUpdater;
 
     private void Start()
     {
@@ -37,6 +39,7 @@ public class EmployeeClick : MonoBehaviour
 
         _mainPanelCanvasGroup.alpha = 0.5f;
         _mainPanelCanvasGroup.interactable = false;
+        _employeeContentUpdater.StartLoadEmployee();
     }
 
     
