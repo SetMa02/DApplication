@@ -20,7 +20,7 @@ namespace DefaultNamespace.Admin
             StartCoroutine(LoadEmployees());
         }
         
-        private IEnumerator LoadEmployees()
+        public IEnumerator LoadEmployees()
         {
             ClearChildren();
             var dbTask = _fireBase.DBreference.GetValueAsync();
@@ -37,37 +37,39 @@ namespace DefaultNamespace.Admin
 
                 for (int i = 0; i < _employeeCount; i++)
                 {
-                    AdminElement adminElement = Instantiate(_prefab, _container.transform);
+                    if (i+1 != global::Admin.Id)
+                    {
+                        AdminElement adminElement = Instantiate(_prefab, _container.transform);
                    
-                    int currentAdmin = i + 1;
-                    adminElement.Id = currentAdmin;
-                    adminElement.Login = snapshot.Child("Admins").Child(currentAdmin.ToString()).Child("Login").Value.ToString();
-                    adminElement.Password = snapshot.Child("Admins").Child(currentAdmin.ToString()).Child("Password").Value.ToString();
+                        int currentAdmin = i + 1;
+                        adminElement.Id = currentAdmin;
+                        adminElement.Login = snapshot.Child("Admins").Child(currentAdmin.ToString()).Child("Login").Value.ToString();
+                        adminElement.Password = snapshot.Child("Admins").Child(currentAdmin.ToString()).Child("Password").Value.ToString();
                     
-                    adminElement.ElementCreate();
+                        adminElement.ElementCreate();
                     
-                    if (snapshot.Child("Admins").Child(currentAdmin.ToString()).Child("CanAdd").Value.Equals(true))
-                    {
-                        adminElement.canAdd = true;
+                        if (snapshot.Child("Admins").Child(currentAdmin.ToString()).Child("CanAdd").Value.Equals(true))
+                        {
+                            adminElement.canAdd = true;
+                        }
+                        if (snapshot.Child("Admins").Child(currentAdmin.ToString()).Child("CanDelete").Value.Equals(true))
+                        {
+                            adminElement.canDelete = true;
+                        }
+                        if (snapshot.Child("Admins").Child(currentAdmin.ToString()).Child("CanChange").Value.Equals(true))
+                        {
+                            adminElement.canChange = true;
+                        }
+                        if (snapshot.Child("Admins").Child(currentAdmin.ToString()).Child("CanAddEmployee").Value.Equals(true))
+                        {
+                            adminElement.CanAddEmp = true;
+                        }
+                        if (snapshot.Child("Admins").Child(currentAdmin.ToString()).Child("CanDeleteEmployee").Value.Equals(true))
+                        {
+                            adminElement.canDeleteEmp = true;
+                        }
+                        Employees.Add(adminElement);
                     }
-                    if (snapshot.Child("Admins").Child(currentAdmin.ToString()).Child("CanDelete").Value.Equals(true))
-                    {
-                        adminElement.canDelete = true;
-                    }
-                    if (snapshot.Child("Admins").Child(currentAdmin.ToString()).Child("CanChange").Value.Equals(true))
-                    {
-                        adminElement.canChange = true;
-                    }
-                    if (snapshot.Child("Admins").Child(currentAdmin.ToString()).Child("CanAddEmployee").Value.Equals(true))
-                    {
-                        adminElement.CanAddEmp = true;
-                    }
-                    if (snapshot.Child("Admins").Child(currentAdmin.ToString()).Child("CanDeleteEmployee").Value.Equals(true))
-                    {
-                        adminElement.canDeleteEmp = true;
-                    }
-                    Employees.Add(adminElement);
-                  
                 }
             }
         }

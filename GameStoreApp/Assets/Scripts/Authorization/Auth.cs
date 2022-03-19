@@ -119,12 +119,15 @@ public class Auth : MonoBehaviour
 
             DataSnapshot snapshot = DBTask.Result;
 
-     
+            Admin.Login = _login.text;
+            Admin.Password = this._password.text;
+
             for (int i = 1; i <= snapshot.ChildrenCount; i++)
             {
                 if (snapshot.Child(i.ToString()).Child("UserId").Value.ToString() == _fireBase.User.UserId)
                 {
                     Admin.IsAdmin = true;
+                    Admin.Id = i;
                     Debug.Log("User signed as ADMIN");
                     
                     if (snapshot.Child(i.ToString()).Child("CanChange").Value.Equals(true))

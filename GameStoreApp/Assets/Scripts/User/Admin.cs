@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class Admin : MonoBehaviour
 {
+    public static int Id;
+    public static string Login;
+    public static string Password;
     public static bool IsAdmin = false;
     public static bool CanAdd = false;
     public static bool CanChange = false;

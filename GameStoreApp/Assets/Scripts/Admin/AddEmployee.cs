@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class AddEmployee : MonoBehaviour
 {
-    [SerializeField] private FireBase _fireBase;
+    [SerializeField] private CanvasGroup _addEmployeeCanvas;
 
-
-    private void Add()
+    public void OpenCreateEmployeeCanvas()
     {
-       
+        _addEmployeeCanvas.alpha = 1;
+        _addEmployeeCanvas.interactable = true;
+        _addEmployeeCanvas.blocksRaycasts = true;
     }
 }
