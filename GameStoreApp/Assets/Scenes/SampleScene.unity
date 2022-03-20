@@ -3135,7 +3135,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.0009765625}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &526293196
@@ -10077,14 +10077,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 545030cc4bff7dd44b3d43793a8f3df4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _loginText: {fileID: 1321850858}
-  _passwordText: {fileID: 894878828}
+  Id: 0
+  LoginText: {fileID: 1321850858}
+  PasswordText: {fileID: 894878828}
   _canAddToggle: {fileID: 1316857842}
   _canChangeToggle: {fileID: 2045985694}
   _canDeleteToggle: {fileID: 482555569}
   _canAddempToggle: {fileID: 988771248}
   _canDeleteEmpToggle: {fileID: 1762406582}
-  _deleteButton: {fileID: 1949909520}
+  _canvas: {fileID: 1389892610}
 --- !u!114 &1389892612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14557,6 +14558,7 @@ GameObject:
   - component: {fileID: 1949909521}
   - component: {fileID: 1949909520}
   - component: {fileID: 1949909519}
+  - component: {fileID: 1949909523}
   m_Layer: 5
   m_Name: DeleteBtn
   m_TagString: Untagged
@@ -14674,6 +14676,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1949909517}
   m_CullTransparentMesh: 0
+--- !u!114 &1949909523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1949909517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d80ab3bb68771642aac716c692c47e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fireBase: {fileID: 1461923070}
+  _currentEmployee: {fileID: 1389892611}
+  _message: {fileID: 689588149}
+  _content: {fileID: 1977870823}
 --- !u!1 &1957615930
 GameObject:
   m_ObjectHideFlags: 0
@@ -15820,7 +15838,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.057406902, y: 0.21274415}
   m_AnchorMax: {x: 0.39733338, y: 0.261}
-  m_AnchoredPosition: {x: 0.5, y: 478.3639}
+  m_AnchoredPosition: {x: 0.5, y: 478.36328}
   m_SizeDelta: {x: -24.699982, y: -44.933105}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2055763266
