@@ -12,10 +12,9 @@ public class DeleteGame : MonoBehaviour
     [SerializeField] private WarningMessage _warningMessage;
     [SerializeField] private ErrorMessage _errorMessage;
     [SerializeField] private GameWindow _game;
+    [SerializeField] private ContentUpdate _contentUpdate;
     private Button _deleteButton;
     
-
-
     private void Start()
     {
         _deleteButton = GetComponent<Button>();
@@ -52,7 +51,6 @@ public class DeleteGame : MonoBehaviour
                 string platform;
                 string genre;
                 string price;
-                
                 for (int i = (deleteId+1); i <= count; i++)
                 {
                     id = i;
@@ -62,9 +60,7 @@ public class DeleteGame : MonoBehaviour
                     image = snapshot.Child(i.ToString()).Child("Image").Value.ToString();
                     genre = snapshot.Child(i.ToString()).Child("Genres").Value.ToString();
                     price = snapshot.Child(i.ToString()).Child("Price").Value.ToString();
-
                     id--;
-                    
                     var DbTaskName = _fireBase.DBreference.Child("Games").Child(id.ToString()).Child("Name")
                         .SetValueAsync(name);
                     var DbTaskDesc = _fireBase.DBreference.Child("Games").Child(id.ToString()).Child("Description")
@@ -86,18 +82,13 @@ public class DeleteGame : MonoBehaviour
                                                                 && DbRemove.IsCompleted);
                     
                 }
-
-                count--;
-                var DbTaskCountChange = _fireBase.DBreference.Child("Games").Child("Count").SetValueAsync(count);
-                yield return new WaitUntil(predicate: () => DbTaskCountChange.IsCompleted);
-                if (DbTaskCountChange.IsCompleted == true)
-                {
-                    _errorMessage.ShowMessage(_game.GameFrame, "Успешно удалено");
-                    _game.CloseWindow();
-                }
+                _game.CloseWindow();
+                _game.GameFrame.alpha = 0;
+                StartCoroutine(_contentUpdate.LoadUserData());
+                _errorMessage.ShowMessage(_game.GameFrame, "Успешно удалено");
+              
             }
 
         }
     }
-
 }

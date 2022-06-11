@@ -11,29 +11,33 @@ public class ButtonManager : MonoBehaviour
     [SerializeField] private CanvasGroup _employeesCanvasGroup;
     [SerializeField] private CanvasGroup _deleteGameCanvasGroup;
     [SerializeField] private CanvasGroup _editGameCanvasGroup;
-    
+    [SerializeField] private CanvasGroup _favouriteCanvasGroup;
+    [SerializeField] private CanvasGroup _deleteEmpCanvasCroup;
+    [SerializeField] private CanvasGroup _favGameBtn;
     private void OnEnable()
     {
         _auth.UserSigned += UserSignCheck;
     }
-
     private void OnDisable()
     {
         _auth.UserSigned -= UserSignCheck;
     }
-    
     private void UserSignCheck()
     {
         if (Admin.IsAdmin == true)
         {
+            _favGameBtn.alpha = 0;
+            _favGameBtn.interactable = false;
+            _favGameBtn.blocksRaycasts = false;
+            _favouriteCanvasGroup.alpha = 0;
+            _favouriteCanvasGroup.interactable = false;
+            _favouriteCanvasGroup.blocksRaycasts = false;
             _favButtonCanvasGroup.alpha = 0;
             _favButtonCanvasGroup.interactable = false;
             _favButtonCanvasGroup.blocksRaycasts = false;
-
             _menuCanvasGroup.alpha = 1;
             _menuCanvasGroup.interactable = true;
             _menuCanvasGroup.blocksRaycasts = true;
-
             if (Admin.CanAdd == true)
             {
                 _addGameCanvasGroup.alpha = 1;
@@ -60,6 +64,13 @@ public class ButtonManager : MonoBehaviour
                  _editGameCanvasGroup.alpha = 1;
                  _editGameCanvasGroup.interactable = true;
                  _editGameCanvasGroup.blocksRaycasts = true;
+             }
+
+             if (Admin.CanDeleteEmployee == true)
+             {
+                 _deleteEmpCanvasCroup.alpha = 1;
+                 _deleteEmpCanvasCroup.interactable = true;
+                 _deleteEmpCanvasCroup.blocksRaycasts = true;
              }
         }
     }

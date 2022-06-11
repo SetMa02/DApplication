@@ -15,17 +15,14 @@ public class AdminData : Admin
     {
         _auth.UserSigned += UserIsSigned;
     }
-
     private void OnDisable()
     {
         _auth.UserSigned -= UserIsSigned;
     }
-
     private void UserIsSigned()
     {
         StartCoroutine(GetUserData());
     }
-
     private IEnumerator GetUserData()
     { 
         var DBTask = _fireBase.DBreference.Child("Users").GetValueAsync();
@@ -62,8 +59,6 @@ public class AdminData : Admin
             }
         }
     }
-
-
     private IEnumerator CreateUserData()
     {
         var DBTask = _fireBase.DBreference.Child("Users").Child(_fireBase.User.UserId).Child("Count").SetValueAsync("0");

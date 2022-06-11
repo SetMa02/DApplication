@@ -12,13 +12,11 @@ public class EmployeeClick : MonoBehaviour
     [SerializeField] private CanvasGroup _mainPanelCanvasGroup;
     [SerializeField] private MenuClick _menuClick;
     [SerializeField] private EmployeeContentUpdater _employeeContentUpdater;
-
     private void Start()
     {
         _empButton = GetComponent<Button>();
         _empButton.onClick.AddListener(OnEmployeeClick);
     }
-
     public void Cancel()
     {
         _empCanvasGroup.alpha = 0;
@@ -28,7 +26,6 @@ public class EmployeeClick : MonoBehaviour
         _mainPanelCanvasGroup.alpha = 1;
         _mainPanelCanvasGroup.interactable = true;
     }
-    
     private void OnEmployeeClick()
     {
         _menuClick.CloseMenu();
@@ -41,6 +38,4 @@ public class EmployeeClick : MonoBehaviour
         _mainPanelCanvasGroup.interactable = false;
         _employeeContentUpdater.StartLoadEmployee();
     }
-
-    
 }

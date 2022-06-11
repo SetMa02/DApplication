@@ -59,8 +59,6 @@ public class FavouryContentUpdater : MonoBehaviour
         _favButton.image.color = Color.white;
     }
     
-    
-    
     private void ClearChildren()
     {
         int i = 0;
@@ -78,20 +76,7 @@ public class FavouryContentUpdater : MonoBehaviour
             DestroyImmediate(child.gameObject);
         }
     }
-/*
-    private void LoadFavourites()
-    {
-        foreach (var el in _content.Elements)
-        {
-            Element element = el.GetComponent<Element>();
-            if (element.IsFavourite == true)
-            {
-                Instantiate(el, _container.transform, false);
-            }
-        }
-    }
-    */
-    
+
     private IEnumerator LoadFavourites()
     {
         var DBTask = _fireBase.DBreference.Child("Games").GetValueAsync();
@@ -106,7 +91,7 @@ public class FavouryContentUpdater : MonoBehaviour
         {
             DataSnapshot snapshot = DBTask.Result;
 
-            int countOfGames = Convert.ToInt32(snapshot.Child("Count").Value.ToString());
+            int countOfGames = Convert.ToInt32(snapshot.ChildrenCount);
             for (int i = 0; i < countOfGames; i++)
             {
                 _currentGames.Add(_prefab);

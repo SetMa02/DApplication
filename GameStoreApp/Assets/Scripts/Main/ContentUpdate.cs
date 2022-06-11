@@ -31,7 +31,7 @@ public class ContentUpdate : MonoBehaviour
   
     private void Start()
     {
-        ClearChildren();
+       
         Elements = new List<GameObject>() { };
         _mainFrame = gameObject.GetComponent<CanvasGroup>();
     }
@@ -57,6 +57,7 @@ public class ContentUpdate : MonoBehaviour
     
     public IEnumerator LoadUserData()
     {
+        ClearChildren();
         string name = "error";
         var DBTask = _fireBase.DBreference.Child("Games").GetValueAsync();
 
@@ -71,7 +72,7 @@ public class ContentUpdate : MonoBehaviour
             DataSnapshot snapshot = DBTask.Result;
             Snapshot.DbSnapshot = snapshot;
             
-            int countOfGames = Convert.ToInt32(snapshot.Child("Count").Value.ToString());
+            int countOfGames = Convert.ToInt32(snapshot.ChildrenCount);
             Snapshot.GamesCount = countOfGames;
             
             for (int i = 0; i < countOfGames; i++)

@@ -50,8 +50,8 @@ public class ErrorMessage : MonoBehaviour
         _errorFrame.alpha = 0;
         _errorFrame.blocksRaycasts = false;
         _errorFrame.interactable = false;
-        _currentFrame.interactable = true;
-        _currentFrame.alpha = 1;
+       _targetFrame.interactable = true;
+       _targetFrame.alpha = 1;
     }
 
     private void OkClickAndClose()

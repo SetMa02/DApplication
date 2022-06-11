@@ -58,7 +58,6 @@ public class Serch : MonoBehaviour
         }
     }
     
-    
     IEnumerator SendLoadRequest()
     {
         var DBTask = _fireBase.DBreference.Child("Games").GetValueAsync();
@@ -73,7 +72,7 @@ public class Serch : MonoBehaviour
         {
             DataSnapshot snapshot = DBTask.Result;
 
-            int countOfGames = Convert.ToInt32(snapshot.Child("Count").Value.ToString());
+            int countOfGames = Convert.ToInt32(snapshot.ChildrenCount);
             
             for (int i = 0; i < countOfGames; i++)
             {

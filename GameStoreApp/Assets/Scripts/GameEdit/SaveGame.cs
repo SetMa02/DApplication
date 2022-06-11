@@ -11,6 +11,8 @@ public class SaveGame : MonoBehaviour
     [SerializeField] private FireBase _fireBase;
     [SerializeField] private Cancel _cancel;
     [SerializeField] private CurrentGame _currentGame;
+    [SerializeField] private ContentUpdate _contentUpdate;
+    [SerializeField] private GameWindow _gameWindow;
     private Button _saveButton;
 
     private void Start()
@@ -29,7 +31,7 @@ public class SaveGame : MonoBehaviour
     {
         if (CurrentGame.IsNewGame == true)
         {
-            int newId = Convert.ToInt32(Snapshot.DbSnapshot.Child("Count").Value);
+            int newId = Convert.ToInt32(Snapshot.DbSnapshot.ChildrenCount);
             newId++;
             CurrentGame.Id = newId;
         }
@@ -57,6 +59,8 @@ public class SaveGame : MonoBehaviour
             DbTaskGenre.IsCompleted && DbTaskPrice.IsCompleted && DbTaskPlatform.IsCompleted)
         {
             Debug.Log("Data saved");
+            _gameWindow.CloseWindow();
+            StartCoroutine(_contentUpdate.LoadUserData());
             _cancel.CancelButtonClick();
         }
     }
@@ -69,7 +73,7 @@ public class SaveGame : MonoBehaviour
         var newMetadata = new MetadataChange();
         newMetadata.ContentType = "image/jpeg";
 
-        //Create a reference to where the file needs to be uploaded
+      
         StorageReference uploadRef = _fireBase.StorageReference.Child(CurrentGame.ImageName);
         Debug.Log("File upload started");
         uploadRef.PutBytesAsync(CurrentGame.ImageData, newMetadata).ContinueWithOnMainThread((task) => { 

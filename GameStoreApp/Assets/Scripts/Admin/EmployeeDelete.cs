@@ -12,21 +12,17 @@ public class EmployeeDelete : MonoBehaviour
     [SerializeField] private CurrentEmployee _currentEmployee;
     [SerializeField] private ErrorMessage _message;
     [SerializeField] private EmployeeContentUpdater _content;
-
     private Button _deleteButton;
-
     private void Start()
     {
         _deleteButton = GetComponent<Button>();
         _deleteButton.onClick.AddListener(DeleteButtonClick);
     }
-
     private void DeleteButtonClick()
     {
         StartCoroutine(DeleteCurrentEmployee());
         Debug.Log("!!!");
     }
-
     private IEnumerator DeleteCurrentEmployee()
     {
         var loginTAsk =
@@ -47,7 +43,6 @@ public class EmployeeDelete : MonoBehaviour
             {
                 Debug.Log("!!!");
                 DataSnapshot snapshot = dataTask.Result;
-
                 int id;
                 string login;
                 string password;
@@ -57,7 +52,6 @@ public class EmployeeDelete : MonoBehaviour
                 string canDelete;
                 string canAddEmp;
                 string canDeleteEmp;
-                
                 for (int i = (deleteId+1); i <= snapshot.ChildrenCount; i++)
                 {
                     id = i;
@@ -69,9 +63,7 @@ public class EmployeeDelete : MonoBehaviour
                     canDelete = snapshot.Child(i.ToString()).Child("CanDelete").Value.ToString();
                     canAddEmp = snapshot.Child(i.ToString()).Child("CanAddEmployee").Value.ToString();
                     canDeleteEmp = snapshot.Child(i.ToString()).Child("CanDeleteEmployee").Value.ToString();
-
                     id--;
-                    
                     var DbTaskLogin = _fireBase.DBreference.Child("Admins").Child(id.ToString()).Child("Login")
                         .SetValueAsync(login);
                     var DbTaskPassword = _fireBase.DBreference.Child("Admins").Child(id.ToString()).Child("Password")
@@ -97,7 +89,6 @@ public class EmployeeDelete : MonoBehaviour
                                                                 DbTaskDeleteEmp.IsCompleted &&
                                                                 DbTaskUserId.IsCompleted);
                 }
-                
                 Firebase.Auth.FirebaseUser user = _fireBase.Auth.CurrentUser;
                 if (user != null) {
                     user.DeleteAsync().ContinueWith(task => {

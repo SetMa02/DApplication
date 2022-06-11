@@ -11,16 +11,13 @@ namespace DefaultNamespace
         [SerializeField] private FireBase _fireBase;
         [SerializeField] private ErrorMessage _errorMessage;
         [SerializeField] private CanvasGroup _mainWindow;
-
         private Button _button;
-
         private void Start()
         {
             _button = GetComponent<Button>();
             
             _button.onClick.AddListener(SendEmail);
         }
-
         private void SendEmail()
         {
             MailAddress fromAddress = new MailAddress("shop.games.ru19@gmail.com", "Shop");

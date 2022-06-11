@@ -21,11 +21,10 @@ public class Auth : MonoBehaviour
 
     public event UnityAction UserSigned;
     public bool IsAdmin = false;
-    
+
     private CanvasGroup _frame;
     private Button _regButton;
-    
-    
+
 
     private void Start()
     {
@@ -49,10 +48,10 @@ public class Auth : MonoBehaviour
         _password.text = "";
         _regButton.onClick.RemoveAllListeners();
         _regButton.onClick.AddListener(MoveToLogin);
-       _loginButton.onClick.RemoveAllListeners();
-       _loginButton.onClick.AddListener(RegistrButtonClick);
+        _loginButton.onClick.RemoveAllListeners();
+        _loginButton.onClick.AddListener(RegistrButtonClick);
     }
-    
+
     public void MoveToLogin()
     {
         _loginText.text = "Авторизация";
@@ -75,7 +74,7 @@ public class Auth : MonoBehaviour
     private IEnumerator Login(string _email, string _password)
     {
         var LoginTask = _fireBase.Auth.SignInWithEmailAndPasswordAsync(_email, _password);
-       
+
         yield return new WaitUntil(predicate: () => LoginTask.IsCompleted);
 
         if (LoginTask.Exception != null)
@@ -129,39 +128,41 @@ public class Auth : MonoBehaviour
                     Admin.IsAdmin = true;
                     Admin.Id = i;
                     Debug.Log("User signed as ADMIN");
-                    
+
                     if (snapshot.Child(i.ToString()).Child("CanChange").Value.Equals(true))
                     {
                         Admin.CanChange = true;
                         Debug.Log("change");
                     }
+
                     if (snapshot.Child(i.ToString()).Child("CanAdd").Value.Equals(true))
                     {
                         Admin.CanAdd = true;
                         Debug.Log("add");
                     }
+
                     if (snapshot.Child(i.ToString()).Child("CanDelete").Value.Equals(true))
                     {
                         Admin.CanDelete = true;
                         Debug.Log("delete");
                     }
+
                     if (snapshot.Child(i.ToString()).Child("CanAddEmployee").Value.Equals(true))
                     {
                         Admin.CanAddEmployee = true;
                         Debug.Log("empAdd");
                     }
-                
+
                     if (snapshot.Child(i.ToString()).Child("CanDeleteEmployee").Value.Equals(true))
                     {
                         Admin.CanDeleteEmployee = true;
                         Debug.Log("EmpDelete");
                     }
                 }
-               
             }
-  
+
             Debug.LogFormat("User signed in successfully: {0} ", _fireBase.User.Email);
-            
+
             UserSigned?.Invoke();
         }
     }
@@ -175,7 +176,6 @@ public class Auth : MonoBehaviour
 
         if (RegisterTask.Exception != null)
         {
-
             Debug.LogWarning(message: $"Failed to register task with {RegisterTask.Exception}");
             FirebaseException firebaseEx = RegisterTask.Exception.GetBaseException() as FirebaseException;
             AuthError errorCode = (AuthError) firebaseEx.ErrorCode;
@@ -206,6 +206,3 @@ public class Auth : MonoBehaviour
         }
     }
 }
-          
-    
-

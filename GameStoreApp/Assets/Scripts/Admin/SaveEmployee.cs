@@ -35,8 +35,6 @@ public class SaveEmployee : MonoBehaviour
 
     private IEnumerator AddEmployee()
     {
-       
-        
         var RegisterTask = _fireBase.Auth.CreateUserWithEmailAndPasswordAsync(_logiInput.text, _passwordInput.text);
 
         yield return new WaitUntil(predicate: () => RegisterTask.IsCompleted);
@@ -103,11 +101,8 @@ public class SaveEmployee : MonoBehaviour
                             StartCoroutine(_contentUpdater.LoadEmployees());
                         }
                     }
-
                 }
-              
             }
         }
-
     }
 }

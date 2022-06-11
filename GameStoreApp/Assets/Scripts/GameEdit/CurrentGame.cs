@@ -31,7 +31,6 @@ public class CurrentGame : MonoBehaviour
             PlatformChanged();
         });
     }
-
     private void PlatformChanged()
     {
         switch (_platform.value)
@@ -56,7 +55,6 @@ public class CurrentGame : MonoBehaviour
                 break;
         }
     }
-
     public void SetData()
     {
         try
@@ -94,5 +92,4 @@ public class CurrentGame : MonoBehaviour
         }
         
     }
-  
 }

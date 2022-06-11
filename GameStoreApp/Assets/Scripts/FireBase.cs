@@ -16,8 +16,7 @@ public class FireBase : MonoBehaviour
     public DatabaseReference DBreference;
     public FirebaseStorage Storage;
     public StorageReference StorageReference;
-
-
+    
     void Awake()
     {
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
@@ -33,7 +32,6 @@ public class FireBase : MonoBehaviour
             }
         });
     }
-    
     private void InitializeFirebase()
     {
         Debug.Log("Setting up Firebase Auth");

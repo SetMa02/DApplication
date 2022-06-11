@@ -40,7 +40,6 @@ public class MenuClick : MonoBehaviour
         }
     }
     
-
     private void Start()
     {
         _isOpen = false;

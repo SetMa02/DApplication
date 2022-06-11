@@ -23,9 +23,7 @@ public class Element : MonoBehaviour
     private GameObject _window;
     private GameWindow _gameWindow;
     private CanvasGroup _canvasGroup;
-    
-   
-   
+
     private void Start()
    {
       _window = GameObject.FindGameObjectWithTag("GameWindow");

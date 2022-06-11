@@ -12,14 +12,12 @@ namespace DefaultNamespace.Admin
         [SerializeField] private GameObject _container;
         [SerializeField] private AdminElement _prefab;
         [SerializeField] private FireBase _fireBase;
-        
         private int _employeeCount;
         
         public void StartLoadEmployee()
         {
             StartCoroutine(LoadEmployees());
         }
-        
         public IEnumerator LoadEmployees()
         {
             ClearChildren();
@@ -73,9 +71,6 @@ namespace DefaultNamespace.Admin
                 }
             }
         }
-        
-      
-        
         private void ClearChildren()
         {
             int i = 0;

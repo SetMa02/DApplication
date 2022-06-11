@@ -44,5 +44,4 @@ public class AdminElement : MonoBehaviour
         _login.text = Login;
         _password.text = Password;
     }
-    
 }

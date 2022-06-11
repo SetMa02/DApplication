@@ -14,8 +14,7 @@ public class CurrentEmployee : MonoBehaviour
     [SerializeField] private Toggle _canDeleteToggle;
     [SerializeField] private Toggle _canAddempToggle;
     [SerializeField] private Toggle _canDeleteEmpToggle;
-    public CanvasGroup _canvas; 
-
+    public CanvasGroup _canvas;
     public void ReceiveData(int id,string login, string password, bool canAdd, bool canDelete, bool canChange, bool canAddEmp,
         bool canDeleteEmp)
     {
@@ -28,7 +27,6 @@ public class CurrentEmployee : MonoBehaviour
         _canAddempToggle.isOn = canAddEmp;
         _canDeleteEmpToggle.isOn = canDeleteEmp;
     }
-
     public void CloseWindow()
     {
         _canvas.alpha = 0;

@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class LoadGame : MonoBehaviour
 {
-    
     public static void LoadGameData(int id,RawImage rawImage, string name, string desc, string genre, string price, string platform)
     {
         CurrentGame.Id = id;
@@ -21,7 +20,4 @@ public class LoadGame : MonoBehaviour
         CurrentGame.Platform = platform;
         CurrentGame.Platform = platform;
     }
-
-  
-    
 }
