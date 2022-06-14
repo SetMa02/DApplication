@@ -12,6 +12,7 @@ namespace DefaultNamespace
         [SerializeField] private ErrorMessage _errorMessage;
         [SerializeField] private CanvasGroup _mainWindow;
         private Button _button;
+        private int summ = 0;
         private void Start()
         {
             _button = GetComponent<Button>();
@@ -20,16 +21,23 @@ namespace DefaultNamespace
         }
         private void SendEmail()
         {
-            MailAddress fromAddress = new MailAddress("shop.games.ru19@gmail.com", "Shop");
+            MailAddress fromAddress = new MailAddress("shop.games.ru19@outlook.com", "Shop");
             MailAddress destinationAddress = new MailAddress(_fireBase.User.Email, "User");
             MailMessage newMassage = new MailMessage(fromAddress, destinationAddress);
 
             newMassage.Subject ="Отмеченные игры";
             newMassage.Body = $"Здраствуйте, на вашем аккаунте есть {FavouriteGames.Games.Count} отмеченных игр, для " +
                               $"оформления доставки рекомендую связаться с нами по номеру телефона : +7987654321";
+            foreach (var game in FavouriteGames.Games)
+            {
+                newMassage.Body += $"\n {game.Name}, цена {game.Privce};";
+                summ += game.Privce;
+            }
+
+            newMassage.Body += $"\n Сумма избранных = {summ}";
 
             SmtpClient smtpClient = new SmtpClient();
-            smtpClient.Host = "smtp.gmail.com";
+            smtpClient.Host = "smtp.office365.com";
             smtpClient.Port = 587;
             smtpClient.EnableSsl = true;
             smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;

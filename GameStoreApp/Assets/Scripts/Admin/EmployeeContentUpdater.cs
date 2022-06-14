@@ -41,8 +41,15 @@ namespace DefaultNamespace.Admin
                    
                         int currentAdmin = i + 1;
                         adminElement.Id = currentAdmin;
+                        if (global::Admin.CanAddEmployee == true)
+                        {
+                            adminElement.Password = snapshot.Child("Admins").Child(currentAdmin.ToString()).Child("Password").Value.ToString();
+                        }
+                        else
+                        {
+                            adminElement.Password = "Нет прав!";
+                        }
                         adminElement.Login = snapshot.Child("Admins").Child(currentAdmin.ToString()).Child("Login").Value.ToString();
-                        adminElement.Password = snapshot.Child("Admins").Child(currentAdmin.ToString()).Child("Password").Value.ToString();
                     
                         adminElement.ElementCreate();
                     

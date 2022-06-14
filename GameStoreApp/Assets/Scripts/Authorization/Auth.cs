@@ -168,6 +168,8 @@ public class Auth : MonoBehaviour
     }
 
 
+
+
     private IEnumerator Register(string _email, string _password)
     {
         var RegisterTask = _fireBase.Auth.CreateUserWithEmailAndPasswordAsync(_email, _password);

@@ -60,6 +60,8 @@ public class Serch : MonoBehaviour
     
     IEnumerator SendLoadRequest()
     {
+        string searchName = _inputField.text;
+        searchName.ToLower();
         var DBTask = _fireBase.DBreference.Child("Games").GetValueAsync();
 
         yield return new WaitUntil(predicate: () => DBTask.IsCompleted);
@@ -81,7 +83,7 @@ public class Serch : MonoBehaviour
             
             for (int i = 0; i < _elements.Count; i++)
             {
-                if (snapshot.Child($"{i+1}").Child("Name").Value.ToString().Contains(_inputField.text))
+                if (snapshot.Child($"{i+1}").Child("Name").Value.ToString().ToLower().Contains(searchName))
                 {
                     Element element = _elements[i].GetComponent<Element>();
                     string DBElement = (i + 1).ToString();

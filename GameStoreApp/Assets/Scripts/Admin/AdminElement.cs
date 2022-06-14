@@ -33,10 +33,20 @@ public class AdminElement : MonoBehaviour
     
     private void EmployeeButtonClick()
     {
-        _currentEmployee.ReceiveData(Id, Login, Password, canAdd, canDelete, canChange, CanAddEmp, canDeleteEmp);
-        _currentEmployeePanel.alpha = 1;
-        _currentEmployeePanel.interactable = true;
-        _currentEmployeePanel.blocksRaycasts = true;
+        if (Admin.CanAddEmployee == true)
+        {
+            _currentEmployee.ReceiveData(Id, Login, Password, canAdd, canDelete, canChange, CanAddEmp, canDeleteEmp);
+            _currentEmployeePanel.alpha = 1;
+            _currentEmployeePanel.interactable = true;
+            _currentEmployeePanel.blocksRaycasts = true;
+        }
+        else
+        {
+            _currentEmployee.ReceiveData(Id, Login, "Нет прав!", canAdd, canDelete, canChange, CanAddEmp, canDeleteEmp);
+            _currentEmployeePanel.alpha = 1;
+            _currentEmployeePanel.interactable = true;
+            _currentEmployeePanel.blocksRaycasts = true;
+        }
     }
 
     public void ElementCreate()

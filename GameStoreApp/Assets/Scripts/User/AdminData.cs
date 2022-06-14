@@ -34,7 +34,6 @@ public class AdminData : Admin
         else
         {
             Snapshot.UsersSnapshot = DBTask.Result;
-            FavouriteGames.Games = new List<int>() { };
             if (Snapshot.UsersSnapshot.Child(_fireBase.User.UserId).Exists)
             {
                 int favCount = Convert.ToInt32(Snapshot.UsersSnapshot.Child(_fireBase.User.UserId).Child("Count").Value);
@@ -47,8 +46,10 @@ public class AdminData : Admin
                     for (int i = 1; i <= favCount; i++)
                     {
                         int gameId = Convert.ToInt32(Snapshot.UsersSnapshot.Child(_fireBase.User.UserId).Child($"{i}").Value);
+                        string name = Snapshot.UsersSnapshot.Child(_fireBase.User.UserId).Child($"Name").Value.ToString();
+                        int price = Convert.ToInt32(Snapshot.UsersSnapshot.Child(_fireBase.User.UserId).Child($"Price").Value);
                         Debug.Log(gameId);
-                        FavouriteGames.Games.Add(gameId);
+                        FavouriteGames.AddToGame(gameId, name, price);
                     }
                     Debug.Log("User data received!");
                 }

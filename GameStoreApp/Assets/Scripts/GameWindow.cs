@@ -73,18 +73,22 @@ public class GameWindow : MonoBehaviour
         _price = price;
         _platform = platform;
         Id = id;
-
-        if (FavouriteGames.Games.Contains(id))
+        
+        
+        foreach (var game in FavouriteGames.Games)
         {
-            isFavourite = true;
-            _favText.text = "Убрать избранные";
+            if (game.Id == id)
+            {
+                isFavourite = true;
+                _favText.text = "Убрать избранные";
+            }
+            else
+            {
+                isFavourite = false;
+                _favText.text = "В избранные";
+            }
         }
-        else
-        {
-            isFavourite = false;
-            _favText.text = "В избранные";
-        }
-
+        
         if (isFavourite == true)
         {
             _starBtn.image.color = Color.yellow;
@@ -155,7 +159,7 @@ public class GameWindow : MonoBehaviour
             Element element = _contentUpdate.Elements[id - 1].GetComponent<Element>();
             element.IsFavourite = true;
             isFavourite = true;
-            FavouriteGames.Games.Add(id);
+            FavouriteGames.AddToGame(id, _name.text, Int32.Parse(_price));
         }
     }
 
@@ -205,7 +209,16 @@ public class GameWindow : MonoBehaviour
                 .SetValueAsync(count.ToString());
             yield return new WaitUntil(predicate: () => dbTask4.IsCompleted);
 
-            FavouriteGames.Games.Remove(id);
+            FavGame deleteGame = null;
+            foreach (var game in FavouriteGames.Games)
+            {
+                if (game.Id == id)
+                {
+                    deleteGame = game;
+                }
+            }
+            FavouriteGames.Games.Remove(deleteGame);
+            
             Element element = _contentUpdate.Elements[id - 1].GetComponent<Element>();
             element.IsFavourite = false;
             _starBtn.image.color = Color.white;

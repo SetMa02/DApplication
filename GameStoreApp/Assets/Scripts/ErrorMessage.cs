@@ -32,16 +32,15 @@ public class ErrorMessage : MonoBehaviour
         _okButton.onClick.AddListener(OnOkClick);
     }
 
-    public void ShowMessageAndClose(CanvasGroup targetFrame,CanvasGroup currentFarame, string text)
+    public void ShowMessageAndClose(CanvasGroup targetFrame, string text)
     {
         _targetFrame = targetFrame;
-        _currentFrame = currentFarame;
         _errorMessage.text = text;
         _errorFrame.blocksRaycasts = true;
         _errorFrame.alpha = 1;
-        _currentFrame.alpha = 0.5f;
+        _targetFrame.alpha = 0.5f;
         _errorFrame.interactable = true;
-        _currentFrame.interactable = false;
+        _targetFrame.interactable = false;
         _okButton.onClick.AddListener(OkClickAndClose);
     }
 
@@ -59,12 +58,9 @@ public class ErrorMessage : MonoBehaviour
         _errorFrame.alpha = 0;
         _errorFrame.blocksRaycasts = false;
         _errorFrame.interactable = false;
-        _currentFrame.interactable = false;
-        _currentFrame.blocksRaycasts = false;
-        _currentFrame.alpha = 0;
-        _targetFrame.alpha = 1;
-        _targetFrame.interactable = true;
-        _targetFrame.blocksRaycasts = true;
+        _targetFrame.alpha = 0;
+        _targetFrame.interactable = false;
+        _targetFrame.blocksRaycasts = false;
 
     }
 }

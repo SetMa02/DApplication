@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class DeleteGame : MonoBehaviour
 {
     [SerializeField] private FireBase _fireBase;
+    [SerializeField] private CanvasGroup _gameWindow;
     [SerializeField] private WarningMessage _warningMessage;
     [SerializeField] private ErrorMessage _errorMessage;
     [SerializeField] private GameWindow _game;
@@ -85,8 +86,8 @@ public class DeleteGame : MonoBehaviour
                 _game.CloseWindow();
                 _game.GameFrame.alpha = 0;
                 StartCoroutine(_contentUpdate.LoadUserData());
-                _errorMessage.ShowMessage(_game.GameFrame, "Успешно удалено");
-              
+                _errorMessage.ShowMessageAndClose(_game.GameFrame, "Успешно удалено");
+
             }
 
         }

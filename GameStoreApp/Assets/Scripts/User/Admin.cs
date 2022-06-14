@@ -14,4 +14,14 @@ public class Admin : MonoBehaviour
     public static bool CanDelete = false;
     public static bool CanAddEmployee = false;
     public static bool CanDeleteEmployee = false;
+
+    public static void DisableRights()
+    { 
+        IsAdmin = false;
+      CanAdd = false;
+      CanChange = false;
+      CanDelete = false;
+      CanAddEmployee = false;
+      CanDeleteEmployee = false;
+    }
 }

@@ -10,6 +10,7 @@ public class Logout : MonoBehaviour
 
     public void LogoutButtonClick()
     {
+        Admin.DisableRights();
         Application.LoadLevel(0);
     }
 }

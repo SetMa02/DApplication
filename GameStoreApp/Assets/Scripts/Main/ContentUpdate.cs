@@ -123,15 +123,21 @@ public class ContentUpdate : MonoBehaviour
             element.Name.text = name;
             element.Icon.texture = ((DownloadHandlerTexture) request.downloadHandler).texture;
             element.id = i+1;
-            if(FavouriteGames.Games.Contains( element.id))
+
+            foreach (var game in FavouriteGames.Games)
             {
-                element.IsFavourite = true;
-                Debug.Log( element.id + " fav game");
+                if (game.Id == element.id)
+                {
+                    element.IsFavourite = true;
+                    Debug.Log(element.id + " fav game");
+                }
+                else
+                {
+                    element.IsFavourite = false;
+                    Debug.Log(element.id + " fav game");
+                }
             }
-            else
-            {
-                element.IsFavourite = false;
-            }
+
             Debug.Log("Done");
             Instantiate(Elements[i], _container.transform, false);
         }

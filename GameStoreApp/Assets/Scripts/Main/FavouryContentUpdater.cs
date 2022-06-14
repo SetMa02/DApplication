@@ -91,15 +91,16 @@ public class FavouryContentUpdater : MonoBehaviour
         {
             DataSnapshot snapshot = DBTask.Result;
 
-            int countOfGames = Convert.ToInt32(snapshot.ChildrenCount);
+            int countOfGames = FavouriteGames.Games.Count;
+            
             for (int i = 0; i < countOfGames; i++)
             {
                 _currentGames.Add(_prefab);
             }
-            
-            for (int i = 0; i < _currentGames.Count; i++)
+
+            for (int i = 0; i < FavouriteGames.Games.Count; i++)
             {
-                string DBElement = (i + 1).ToString();
+                string DBElement = FavouriteGames.Games[i].Id.ToString();
                 _currentGames[i].MainPanel = _mainFrame;
                 name = snapshot.Child(DBElement).Child("Name").Value.ToString();
                
@@ -138,16 +139,21 @@ public class FavouryContentUpdater : MonoBehaviour
             {
                 _currentGames[i].Name.text = name;
                 _currentGames[i].Icon.texture = ((DownloadHandlerTexture) request.downloadHandler).texture;
-                _currentGames[i].id = i+1;
-                if(FavouriteGames.Games.Contains( _currentGames[i].id))
+                _currentGames[i].id = i + 1;
+
+                foreach (var game in FavouriteGames.Games)
                 {
-                    _currentGames[i].IsFavourite = true;
-                    Debug.Log( _currentGames[i].id + " fav game");
+                    if (game.Id == _currentGames[i].id)
+                    {
+                        _currentGames[i].IsFavourite = true;
+                        Debug.Log( _currentGames[i].id + " fav game");
+                    }
+                    else
+                    {
+                        _currentGames[i].IsFavourite = false;
+                    }
                 }
-                else
-                {
-                    _currentGames[i].IsFavourite = false;
-                }
+                
                 Debug.Log("Done");
 
                 if ( _currentGames[i].IsFavourite == true)
